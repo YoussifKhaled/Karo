@@ -1,12 +1,13 @@
 package com.example.karo.models.entities;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 public class Driver extends User {
     private String licensePlateNumber;
 

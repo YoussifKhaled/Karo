@@ -27,8 +27,6 @@ public class ParkingLotRepository {
     private static final String SQL_FIND_ALL_LOTS = """
             SELECT *
             FROM parking_lot
-            LIMIT ?
-            OFFSET ?
             """;
     private static final String SQL_UPDATE_LOT_CAPACITY = """
             UPDATE parking_lot
