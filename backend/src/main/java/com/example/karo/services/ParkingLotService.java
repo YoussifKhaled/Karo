@@ -1,6 +1,7 @@
 package com.example.karo.services;
 
 import com.example.karo.models.entities.ParkingLot;
+import com.example.karo.models.entities.ParkingSpot;
 import com.example.karo.repositories.ParkingLotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,30 @@ public class ParkingLotService {
 
     @Autowired
     private ParkingLotRepository parkingLotRepository;
+    @Autowired
+    private ParkingSpotService parkingSpotService;
 
     public long addParkingLot(ParkingLot parkingLot) {
         if (parkingLot == null)
             throw new IllegalArgumentException("Parking Lot cannot be null");
 
-        return parkingLotRepository.insertParkingLot(parkingLot);
+        long lotId = parkingLotRepository.insertParkingLot(parkingLot);
+
+        ParkingSpot parkingSpot = ParkingSpot.builder()
+                .lotId(lotId)
+                .type("regular")
+                .spotStatus("available")
+                .sensorStatus("active")
+                .price(100.0)
+                .build();
+        for (int spotId = 1; spotId <= parkingLot.getCapacity(); ++spotId) {
+            parkingSpot.setSpotId((long) spotId);
+            parkingSpot.setSensorId((long) spotId);
+
+            parkingSpotService.addParkingSpot(parkingSpot);
+        }
+
+        return lotId;
     }
 
     public ParkingLot getParkingLotById(long lotId) {
