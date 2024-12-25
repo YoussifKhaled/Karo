@@ -42,21 +42,17 @@ public class AuthenticationService {
     }
 
     public ResponseEntity<String> login(String email, String password) {
-        System.out.println("here");
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 email, password
             ));
-        System.out.println("moved");
         ResponseEntity<String> response;
         if (authentication.isAuthenticated()) {
-            System.out.println("sucess");
             User user = userRepository.findUserByEmail(email);
             String token = jwtService.generateToken(user);
             response = new ResponseEntity<>(token, HttpStatus.OK);
         }
         else {
-            System.out.println("FAiled");
             response = new ResponseEntity<>("User is not authenticated", HttpStatus.UNAUTHORIZED);
         }
         return response;
