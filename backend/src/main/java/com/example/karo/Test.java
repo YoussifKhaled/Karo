@@ -20,8 +20,8 @@ public class Test {
 
     // Endpoint to create a new parking lot
     @PostMapping("/lot/create")
-    public ResponseEntity<Boolean> createParkingLot(@RequestBody ParkingLot parkingLot) {
-        boolean res = parkingLotRepository.insertParkingLot(parkingLot);
+    public ResponseEntity<Long> createParkingLot(@RequestBody ParkingLot parkingLot) {
+        long res = parkingLotRepository.insertParkingLot(parkingLot);
         return ResponseEntity.ok(res);
     }
 
