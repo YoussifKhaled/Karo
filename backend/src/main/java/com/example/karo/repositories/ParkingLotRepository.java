@@ -3,6 +3,7 @@ package com.example.karo.repositories;
 import com.example.karo.models.entities.ParkingLot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,6 +27,8 @@ public class ParkingLotRepository {
     private static final String SQL_FIND_ALL_LOTS = """
             SELECT *
             FROM parking_lot
+            LIMIT ?
+            OFFSET ?
             """;
     private static final String SQL_UPDATE_LOT_CAPACITY = """
             UPDATE parking_lot
@@ -46,26 +49,50 @@ public class ParkingLotRepository {
     private JdbcTemplate jdbcTemplate;
 
     public Boolean insertParkingLot(ParkingLot parkingLot) {
-        return true;
+        if (parkingLot == null)
+            throw new IllegalArgumentException("Parking Lot is null");
+
+        int count = jdbcTemplate.update(
+                SQL_INSERT_PARKING_LOT,
+                parkingLot.getManagerId(),
+                parkingLot.getLongitude(),
+                parkingLot.getLatitude(),
+                parkingLot.getCapacity(),
+                parkingLot.getSafe());
+        return count == 1;
     }
 
-    public ParkingLot findLotById(Long lotId) {
-        return null;
+    public ParkingLot findLotById(long lotId) {
+        return jdbcTemplate.queryForObject(SQL_FIND_LOT_BY_ID, new Object[]{lotId}, parkingLotRowMapper);
     }
 
     public List<ParkingLot> findAllLots() {
-        return null;
+        return jdbcTemplate.query(SQL_FIND_ALL_LOTS, parkingLotRowMapper);
     }
 
-    public Boolean updateParkingLotCapacity(Long lotId, int capacity) {
-        return null;
+    public boolean updateParkingLotCapacity(long lotId, int capacity) {
+        int count = jdbcTemplate.update(SQL_UPDATE_LOT_CAPACITY, capacity, lotId);
+        return count == 1;
     }
 
-    public Boolean updateParkingLotSafe(Long lotId, int safe) {
-        return null;
+    public boolean updateParkingLotSafe(long lotId, int safe) {
+        int count = jdbcTemplate.update(SQL_UPDATE_LOT_SAFE, safe, lotId);
+        return count == 1;
     }
 
-    public Boolean deleteLotById(Long lotId) {
-        return null;
+    public boolean deleteLotById(long lotId) {
+        int count = jdbcTemplate.update(SQL_DELETE_PARKING_LOT, lotId);
+        return count == 1;
     }
+
+    private final RowMapper<ParkingLot> parkingLotRowMapper= ((rs, rowNum) ->
+        ParkingLot.builder()
+                .lotId(rs.getLong("lot_id"))
+                .managerId(rs.getLong("manager_id"))
+                .longitude(rs.getDouble("longitude"))
+                .latitude(rs.getDouble("latitude"))
+                .capacity(rs.getInt("capacity"))
+                .safe(rs.getInt("safe"))
+                .build()
+    );
 }
