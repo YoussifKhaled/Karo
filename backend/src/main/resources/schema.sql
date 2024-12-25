@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS user (
     user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    date_of_birth DATE NOT NULL,
+    date_of_birth DATE,
     email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     role ENUM('regular', 'admin', 'driver') NOT NULL
