@@ -1,8 +1,10 @@
 package com.example.karo.repositories;
 
+import com.example.karo.models.entities.ParkingLot;
 import com.example.karo.models.entities.ParkingSpot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -52,32 +54,57 @@ public class ParkingSpotRepository {
     private JdbcTemplate jdbcTemplate;
 
     public boolean insertParkingSpot(ParkingSpot parkingSpot) {
-        return true;
+        int count = jdbcTemplate.update(SQL_INSERT_SPOT,
+                parkingSpot.getSpotId(),
+                parkingSpot.getLotId(),
+                parkingSpot.getType(),
+                parkingSpot.getSensorId(),
+                parkingSpot.getSpotStatus(),
+                parkingSpot.getSensorStatus(),
+                parkingSpot.getPrice());
+        return count == 1;
     }
 
     public ParkingSpot findSpotById(long spotId) {
-        return null;
+        return jdbcTemplate.queryForObject(SQL_FIND_SPOT_BY_ID, new Object[]{spotId}, parkingSpotRowMapper);
     }
 
     public List<ParkingSpot> findSpotsByLotId(long lotId) {
-        return null;
+        return jdbcTemplate.query(SQL_FIND_SPOTS_BY_LOT_ID, new Object[]{lotId}, parkingSpotRowMapper);
     }
 
     public boolean updateSpotType(long spotId, String type) {
-        return true;
+        int count = jdbcTemplate.update(SQL_UPDATE_SPOT_TYPE, type, spotId);
+        return count == 1;
     }
 
     public boolean updateSpotStatus(long spotId, String status) {
-        return true;
+        int count = jdbcTemplate.update(SQL_UPDATE_SPOT_STATUS, status, spotId);
+        return count == 1;
     }
     public boolean updateSensorStatus(long spotId, String status) {
-        return true;
+        int count = jdbcTemplate.update(SQL_UPDATE_SENSOR_STATUS, status, spotId);
+        return count == 1;
     }
     public boolean updateSpotPrice(long spotId, Double price) {
-        return true;
+        int count = jdbcTemplate.update(SQL_UPDATE_SPOT_PRICE, price, spotId);
+        return count == 1;
     }
 
     public boolean deleteSpotById(long spotId) {
-        return true;
+        int count = jdbcTemplate.update(SQL_DELETE_SPOT_BY_ID, spotId);
+        return count == 1;
     }
+
+    private final RowMapper<ParkingSpot> parkingSpotRowMapper= ((rs, rowNum) ->
+            ParkingSpot.builder()
+                    .spotId(rs.getLong("spot_id"))
+                    .lotId(rs.getLong("lot_id"))
+                    .type(rs.getString("type"))
+                    .sensorId(rs.getLong("sensor_id"))
+                    .spotStatus(rs.getString("spot_status"))
+                    .sensorStatus(rs.getString("sensor_status"))
+                    .price(rs.getDouble("price"))
+                    .build()
+    );
 }
