@@ -93,7 +93,7 @@ public class ParkingSpotController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
     }
-    
+
     @DeleteMapping("/delete/{spotId}")
     public ResponseEntity<?> deleteParkingSpot(@PathVariable Long spotId) {
         try {
