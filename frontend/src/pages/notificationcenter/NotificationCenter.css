@@ -1,0 +1,19 @@
+.notification-center {
+    margin-top: 40px; /* Add margin to push the notifications below the header */
+    padding: 10px; /* Add some padding for better spacing */
+}
+
+.header {
+    position: fixed; /* Keep the header fixed at the top */
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure it stays above other elements */
+    background-color: white; /* Ensure header has a background to avoid transparency issues */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for a cleaner look */
+}
+
+body {
+    margin: 0; /* Remove any default margin on the body */
+    padding: 0;
+    box-sizing: border-box;
+}
