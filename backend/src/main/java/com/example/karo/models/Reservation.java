@@ -10,9 +10,7 @@ import java.time.LocalDateTime;
 public class Reservation {
     private Long reservationId;
 
-    private Long userId;
-
-    private String vehicleId;
+    private Long driverId;
 
     private Long spotId;
 
