@@ -10,6 +10,38 @@ import java.util.List;
 @Repository
 public class ParkingLotRepository {
 
+    private static final String SQL_INSERT_PARKING_LOT = """
+            INSERT INTO parking_lot
+            	(manager_id, longitude, latitude, capacity, safe)
+            VALUES
+            	(?, ?, ?, ?, ?);
+            """;
+    private static final String SQL_FIND_LOT_BY_ID = """
+            SELECT *
+            FROM
+            	parking_lot
+            WHERE
+            	lot_id = ?;
+            """;
+    private static final String SQL_FIND_ALL_LOTS = """
+            SELECT *
+            FROM parking_lot
+            """;
+    private static final String SQL_UPDATE_LOT_CAPACITY = """
+            UPDATE parking_lot
+            SET capacity = ?
+            WHERE lot_id = ?;
+            """;
+    private static final String SQL_UPDATE_LOT_SAFE = """
+            UPDATE parking_lot
+            SET safe = ?
+            WHERE lot_id = ?;
+            """;
+    private static final String SQL_DELETE_PARKING_LOT = """
+            DELETE FROM parking_lot
+            WHERE lot_id = ?;
+            """;
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -25,7 +57,11 @@ public class ParkingLotRepository {
         return null;
     }
 
-    public Boolean updateParkingLot(ParkingLot parkingLot) {
+    public Boolean updateParkingLotCapacity(Long lotId, int capacity) {
+        return null;
+    }
+
+    public Boolean updateParkingLotSafe(Long lotId, int safe) {
         return null;
     }
 
