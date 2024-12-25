@@ -8,5 +8,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @Builder
 public class Driver extends User {
+    private String licensePlateNumber;
+
     private Integer balance;
 }

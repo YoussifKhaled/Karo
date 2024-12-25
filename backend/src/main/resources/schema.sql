@@ -9,14 +9,9 @@ CREATE TABLE IF NOT EXISTS user (
 
 CREATE TABLE IF NOT EXISTS driver (
     user_id BIGINT PRIMARY KEY,
+    license_plate_number VARCHAR(255) UNIQUE NOT NULL,
     balance INT NOT NULL DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS vehicle (
-    license_plate_number VARCHAR(255) PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES driver(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS parking_lot (
@@ -42,16 +37,14 @@ CREATE TABLE IF NOT EXISTS parking_spot (
 
 CREATE TABLE IF NOT EXISTS reservation (
     reservation_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    user_id BIGINT NOT NULL,
-    vehicle_id VARCHAR(255) NOT NULL,
+    driver_id BIGINT NOT NULL,
     spot_id BIGINT NOT NULL,
     lot_id BIGINT NOT NULL,
     start DATETIME NOT NULL,
     end DATETIME NOT NULL,
     violation ENUM('Not Shown', 'Over Stayed'),
     initial_cost DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (vehicle_id) REFERENCES vehicle(license_plate_number) ON DELETE CASCADE,
+    FOREIGN KEY (driver_id) REFERENCES driver(user_id) ON DELETE CASCADE,
     FOREIGN KEY (spot_id) REFERENCES parking_spot(spot_id) ON DELETE CASCADE,
     FOREIGN KEY (lot_id) REFERENCES parking_lot(lot_id) ON DELETE CASCADE
 );
