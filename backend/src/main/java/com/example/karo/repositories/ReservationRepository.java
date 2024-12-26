@@ -21,6 +21,10 @@ public class ReservationRepository {
         VALUES
         	(?, ?, ?, ?, ?, ?, ?);
         """;
+    private static final String SQL_FIND_RESERVATION_BY_ID = """
+        SELECT * FROM reservation
+        WHERE reservation_id = ?;
+        """;
     private static final String SQL_FIND_RESERVATIONS_BY_LOT_AND_SPOT = """
         SELECT * FROM reservation
         WHERE lot_id = ? AND spot_id = ?;
@@ -46,6 +50,9 @@ public class ReservationRepository {
     private JdbcTemplate jdbcTemplate;
 
     public long insertReservation(Reservation reservation) {
+        if (reservation == null)
+            throw new IllegalArgumentException("Reservation cannot be null");
+
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         int count = jdbcTemplate.update(connection -> {
@@ -63,6 +70,10 @@ public class ReservationRepository {
         if (count == 1)
             return keyHolder.getKey().longValue();
         throw new RuntimeException("Failed to insert reservation");
+    }
+
+    public Reservation findReservationById(Long reservationId) {
+        return jdbcTemplate.queryForObject(sql, rowMapper, reservationId);
     }
 
     public List<Reservation> findReservationsByLotAndSpot(long lotId, long spotId) {
