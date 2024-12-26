@@ -13,9 +13,9 @@ import java.util.List;
 public class ParkingSpotRepository {
     private static final String SQL_INSERT_SPOT = """
             INSERT INTO parking_spot
-            	(spot_id, lot_id, type, sensor_id, spot_status, sensor_status, price)
+            	(spot_id, lot_id, type, sensor_id, spot_status, sensor_status)
             VALUES
-            	(?, ?, ?, ?, ?, ?, ?);
+            	(?, ?, ?, ?, ?, ?);
             """;
     private static final String SQL_FIND_SPOT_BY_ID = """
             SELECT * FROM parking_spot
@@ -62,8 +62,7 @@ public class ParkingSpotRepository {
                 parkingSpot.getType(),
                 parkingSpot.getSensorId(),
                 parkingSpot.getSpotStatus(),
-                parkingSpot.getSensorStatus(),
-                parkingSpot.getPrice());
+                parkingSpot.getSensorStatus());
         return count == 1;
     }
 
@@ -106,7 +105,6 @@ public class ParkingSpotRepository {
                     .sensorId(rs.getLong("sensor_id"))
                     .spotStatus(rs.getString("spot_status"))
                     .sensorStatus(rs.getString("sensor_status"))
-                    .price(rs.getDouble("price"))
                     .build()
     );
 }
