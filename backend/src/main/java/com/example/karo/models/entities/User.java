@@ -1,12 +1,16 @@
 package com.example.karo.models.entities;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 public class User {
     private Long userId;
 
