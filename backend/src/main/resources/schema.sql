@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS parking_lot (
     latitude DECIMAL(9, 6) NOT NULL,
     capacity INT NOT NULL,
     safe INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (manager_id) REFERENCES user(user_id) ON DELETE CASCADE
 );
 
@@ -35,7 +36,6 @@ CREATE TABLE IF NOT EXISTS parking_spot (
     sensor_id BIGINT NOT NULL,
     spot_status ENUM('occupied', 'available', 'reserved'),
     sensor_status ENUM('active', 'inactive', 'faulty'),
-    price DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (spot_id, lot_id),
     FOREIGN KEY (lot_id) REFERENCES parking_lot(lot_id) ON DELETE CASCADE
 );
