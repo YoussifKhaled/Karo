@@ -18,7 +18,7 @@ function App() {
             <Route path="/signup" element={<Signup />} /> 
             <Route path="/home" element={<Home />} />
             <Route path="/parking-lot/:lotId" element={<ParkingLot />} />
-            <Route path="/notifications" element={<NotificationCenter />} />
+            <Route path="/notifications/:userId" element={<NotificationCenter />} />
           </Routes> 
         </main>
       </Router>

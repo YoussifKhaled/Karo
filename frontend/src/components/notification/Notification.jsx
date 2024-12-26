@@ -9,15 +9,15 @@ function Notification({ type, message, dateTime }) {
 
     // Determine icon and style based on the type of notification
     switch (type) {
-        case "overdue":
+        case "Overdue":
             icon = <ErrorIcon className="notification-icon overdue" />;
             className = "notification overdue";
             break;
-        case "reservationSoon":
+        case "Reservation Reminder":
             icon = <ScheduleIcon className="notification-icon soon" />;
             className = "notification soon";
             break;
-        case "reservationConfirmed":
+        case "Reservation Confirmation":
             icon = <CheckCircleIcon className="notification-icon confirmed" />;
             className = "notification confirmed";
             break;

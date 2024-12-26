@@ -1,31 +1,42 @@
 import './NotificationCenter.css';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/header/Header';
 import Notification from '../../components/notification/Notification';
 
 function NotificationCenter() {
-  return (
-    <div>
-        <Header title="Notification Center" />
-        <div className="notification-center">
-            <Notification 
-                type="overdue" 
-                message="Your reservation is overdue! Please check." 
-                dateTime="Dec 25, 2024 - 10:00 AM"
-            />
-            <Notification 
-                type="reservationSoon" 
-                message="You have a reservation in 15 minutes." 
-                dateTime="Dec 25, 2024 - 10:15 AM"
-            />
-            <Notification 
-                type="reservationConfirmed" 
-                message="Your reservation has been confirmed." 
-                dateTime="Dec 25, 2024 - 9:00 AM"
-            />
+    const [notifications, setNotifications] = useState([]); // State to store notifications
+    const userId = 1
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/notifications/${userId}`)
+        .then(response => {
+            console.log(response)
+            return response.json()
+        
+        })
+        .then(data => setNotifications(data))
+        .catch(error => console.error("Error fetching notifications:", error));
+    }, [userId]);
+
+    return (
+        <div>
+            <Header title="Notification Center" />
+            <div className="notification-center">
+                {notifications.length > 0 ? (
+                    notifications.map((notification, index) => (
+                    <Notification 
+                        key={index}
+                        type={notification.type}
+                        message={notification.content}
+                        dateTime={notification.sentAt}
+                    />
+                    ))
+                ) : (
+                    <p>No notifications available</p>
+                )}
+            </div>
         </div>
-    </div>
-  );
+    );
 }
 
 export default NotificationCenter;
