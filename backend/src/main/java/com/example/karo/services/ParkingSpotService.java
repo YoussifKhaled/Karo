@@ -23,8 +23,8 @@ public class ParkingSpotService {
         return parkingSpotRepository.findSpotById(spotId);
     }
 
-    public List<ParkingSpot> getParkingSpotsByLotId(long lotId) {
-        return parkingSpotRepository.findSpotsByLotId(lotId);
+    public List<ParkingSpot> getParkingSpotsByLotId(long lotId, int limit, int offset) {
+        return parkingSpotRepository.findSpotsByLotId(lotId, limit, offset);
     }
 
     public boolean updateParkingSpotType(long spotId, String type) {
