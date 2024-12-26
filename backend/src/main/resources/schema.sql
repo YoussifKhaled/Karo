@@ -25,13 +25,14 @@ CREATE TABLE IF NOT EXISTS parking_lot (
 );
 
 CREATE TABLE IF NOT EXISTS parking_spot (
-    spot_id BIGINT PRIMARY KEY,
+    spot_id BIGINT NOT NULL,
     lot_id BIGINT NOT NULL,
     type ENUM('regular', 'disabled', 'EV charging'),
     sensor_id BIGINT NOT NULL,
     spot_status ENUM('occupied', 'available', 'reserved'),
     sensor_status ENUM('active', 'inactive', 'faulty'),
     price DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY (spot_id, lot_id),
     FOREIGN KEY (lot_id) REFERENCES parking_lot(lot_id) ON DELETE CASCADE
 );
 

@@ -4,6 +4,8 @@ import com.example.karo.models.entities.ParkingLot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -46,18 +48,25 @@ public class ParkingLotRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public Boolean insertParkingLot(ParkingLot parkingLot) {
+    public long insertParkingLot(ParkingLot parkingLot) {
         if (parkingLot == null)
             throw new IllegalArgumentException("Parking Lot is null");
 
-        int count = jdbcTemplate.update(
-                SQL_INSERT_PARKING_LOT,
-                parkingLot.getManagerId(),
-                parkingLot.getLongitude(),
-                parkingLot.getLatitude(),
-                parkingLot.getCapacity(),
-                parkingLot.getSafe());
-        return count == 1;
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        int count = jdbcTemplate.update(connection -> {
+            var ps = connection.prepareStatement(SQL_INSERT_PARKING_LOT, new String[]{"lot_id"});
+            ps.setLong(1, parkingLot.getManagerId());
+            ps.setDouble(2, parkingLot.getLongitude());
+            ps.setDouble(3, parkingLot.getLatitude());
+            ps.setInt(4, parkingLot.getCapacity());
+            ps.setInt(5, parkingLot.getSafe());
+            return ps;
+        }, keyHolder);
+
+        if (count == 1)
+            return keyHolder.getKey().longValue();
+        throw new RuntimeException("Failed to insert parking lot");
     }
 
     public ParkingLot findLotById(long lotId) {
