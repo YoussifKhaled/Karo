@@ -37,9 +37,9 @@ public class ParkingSpotController {
     }
 
     @GetMapping("/lot-spots/{lotId}")
-    public ResponseEntity<?> getParkingSpotsByLotId(@PathVariable Long lotId) {
+    public ResponseEntity<?> getParkingSpotsByLotId(@PathVariable Long lotId, @RequestParam int limit, @RequestParam int offset) {
         try {
-            List<ParkingSpot> parkingSpots = parkingSpotService.getParkingSpotsByLotId(lotId);
+            List<ParkingSpot> parkingSpots = parkingSpotService.getParkingSpotsByLotId(lotId, limit, offset);
             return ResponseEntity.ok(parkingSpots);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);

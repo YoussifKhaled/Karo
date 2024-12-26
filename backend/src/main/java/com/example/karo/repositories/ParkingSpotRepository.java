@@ -23,7 +23,9 @@ public class ParkingSpotRepository {
             """;
     private static final String SQL_FIND_SPOTS_BY_LOT_ID = """
             SELECT * FROM parking_spot
-            WHERE lot_id = ?;
+            WHERE lot_id = ?
+            LIMIT ?
+            OFFSET ?;
             """;
     private static final String SQL_UPDATE_SPOT_TYPE = """
             UPDATE parking_spot
@@ -69,8 +71,8 @@ public class ParkingSpotRepository {
         return jdbcTemplate.queryForObject(SQL_FIND_SPOT_BY_ID, new Object[]{spotId}, parkingSpotRowMapper);
     }
 
-    public List<ParkingSpot> findSpotsByLotId(long lotId) {
-        return jdbcTemplate.query(SQL_FIND_SPOTS_BY_LOT_ID, new Object[]{lotId}, parkingSpotRowMapper);
+    public List<ParkingSpot> findSpotsByLotId(long lotId, int limit, int offset) {
+        return jdbcTemplate.query(SQL_FIND_SPOTS_BY_LOT_ID, new Object[]{lotId, limit, offset}, parkingSpotRowMapper);
     }
 
     public boolean updateSpotType(long spotId, String type) {
