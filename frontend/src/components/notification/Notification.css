@@ -1,0 +1,63 @@
+.notification {
+    display: flex;
+    justify-content: space-between; /* Space between message and date/time */
+    align-items: center;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.notification-left {
+    display: flex;
+    align-items: center;
+}
+
+.notification-icon {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+/* Overdue notification style */
+.notification.overdue {
+    background-color: #fdecea;
+    color: #d32f2f;
+}
+
+.notification-icon.overdue {
+    color: #d32f2f;
+}
+
+/* Reservation soon notification style */
+.notification.soon {
+    background-color: #fff8e1;
+    color: #f57c00;
+}
+
+.notification-icon.soon {
+    color: #f57c00;
+}
+
+/* Reservation confirmed notification style */
+.notification.confirmed {
+    background-color: #e8f5e9;
+    color: #388e3c;
+}
+
+.notification-icon.confirmed {
+    color: #388e3c;
+}
+
+.notification-message {
+    flex: 1;
+}
+
+.notification-dateTime {
+    font-size: 14px;
+    color: #6b6b6b;
+    margin-left: 20px; /* Adds spacing between the message and date/time */
+    white-space: nowrap; /* Prevents the date/time from breaking into multiple lines */
+    padding-right: 20px;
+}
