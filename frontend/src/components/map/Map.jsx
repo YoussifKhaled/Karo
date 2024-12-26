@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
 
 const customIcon = new L.Icon({
-    iconUrl: require('./../../marker-icon.webp'),
+    iconUrl: require('./../../assets/marker-icon.webp'),
     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
     iconSize: [40, 40],
     shadowSize: [45, 45],

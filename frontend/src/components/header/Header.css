@@ -1,7 +1,6 @@
 .header {
     display: flex;
     align-items: center;
-    padding-left: 1rem;
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -11,7 +10,7 @@
 }
 
 .home-icon {
-    padding: 0.1rem;
+    padding-left: 0.5rem;
     cursor: pointer;
 }
 
@@ -20,11 +19,18 @@
 }
 
 .karo{
-    width: 92%;
+    width: 130vh;
+    margin-left: 33vh;
+    margin-right: 33vh;
     cursor: default;
     font-size: 1.5rem;
     font-weight: bold;
     font-family: monospace;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .notification-icon {
