@@ -73,7 +73,7 @@ public class ReservationRepository {
     }
 
     public Reservation findReservationById(Long reservationId) {
-        return jdbcTemplate.queryForObject(sql, rowMapper, reservationId);
+        return jdbcTemplate.queryForObject(SQL_FIND_RESERVATION_BY_ID, reservationRowMapper, reservationId);
     }
 
     public List<Reservation> findReservationsByLotAndSpot(long lotId, long spotId) {
