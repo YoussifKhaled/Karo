@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import EvStationIcon from '@mui/icons-material/EvStation';
 import AccessibleIcon from '@mui/icons-material/Accessible';
-import Reservation from './../../components/reservation/Reservation';
+import Reservation from '../../components/reservation/Reservation';
 
 const parkingSpots = [
     { id: 1, status: 'open', type: 'regular' },
