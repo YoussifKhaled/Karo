@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS user (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
-    role ENUM('regular', 'admin', 'driver') NOT NULL
+    role ENUM('manager', 'admin', 'driver') NOT NULL
 );
 
 -- Driver Table
