@@ -18,11 +18,6 @@ public class NotificationRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public int saveNotification(LocalDateTime sent_at, String type, String content) {
-        String sql = "INSERT INTO NOTIFICATION (sent_at, type, content) VALUES (?, ?, ?)";
-        return jdbcTemplate.update(sql, Timestamp.valueOf(sent_at), type, content);
-    }
-
     public Long getLastInsertedNotificationId() {
         String sql = "SELECT LAST_INSERT_ID()";
         return jdbcTemplate.queryForObject(sql, Long.class);
