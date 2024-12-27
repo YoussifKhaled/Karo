@@ -20,17 +20,19 @@ function Reservation ({ lot, spot, onClose }) {
             // loop through data and divide each reservation into hours
             // for example: reservation from 10:00 to 12:00 will be divided into 10:00-11:00 and 11:00-12:00
             // then set the reservations
+            let resTmp = [];
             for (let i = 0; i < data.length; i++) {
                 const start = new Date(data[i].start);
                 const end = new Date(data[i].end);
-                const hours = [];
                 for (let j = start.getHours(); j < end.getHours(); j++) {
-                    hours.push((j<10?'0':'') + j + ':00 - ' + (j + 1) + ':00');
+                    resTmp.push({
+                        start: start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate() + 'T' + (j < 10 ? '0' : '') + j + ':00:00',
+                        end: start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate() + 'T' + (j + 1 < 10 ? '0' : '') + (j + 1) + ':00:00'
+                    });
                 }
-                data[i].hours = hours;
+                
             }
-            setReservations(data);
-            console.log(data);
+            setReservations(resTmp);
         };
         getReservations();
     }, [lot, spot]);
@@ -42,7 +44,7 @@ function Reservation ({ lot, spot, onClose }) {
     const getHours = (from) => {
         const hours = [];
         for (let i = from; i < 24; i++) {
-            hours.push((i<10?'0':'') + i + ':00 - ' + (i + 1) + ':00');
+            hours.push((i<10?'0':'') + i + ':00 - ' + (i+1<10?'0':'') + (i+1) + ':00');
         }
         return hours;
     }
@@ -94,23 +96,99 @@ function Reservation ({ lot, spot, onClose }) {
         }
 
         const startHour = hour.split(' ')[0]+':00';
-        const lookFor = day.fullDate + 'T' + startHour;
+        const endHour = hour.split(' ')[2]+':00';
+        const lookForStart = day.fullDate + 'T' + startHour;
+        const lookForEnd = day.fullDate + 'T' + endHour;
 
-        if (selectedHours.includes(lookFor)) {
-            setSelectedHours(selectedHours.filter(h => h !== lookFor));
+        if (selectedHours.some(hour => hour.start === lookForStart && hour.end === lookForEnd)) {
+            setSelectedHours(selectedHours.filter(hour => hour.start !== lookForStart && hour.end !== lookForEnd));
             return;
         }
 
-        setSelectedHours([...selectedHours, lookFor]);
+        setSelectedHours([...selectedHours, {start: lookForStart, end: lookForEnd}]);
     }
 
-    // const groupSelectedHours = (hours) => {
-    // }
+    const groupSelectedHours = (hours) => {
+
+        hours.sort((a, b) => new Date(a.start) - new Date(b.start));
+
+        const groupedHours = [];
+        let start = hours[0].start;
+        let end = hours[0].end;
+
+        for (let i = 1; i < hours.length; i++) {
+            const current = new Date(hours[i].start);
+            const previous = new Date(hours[i - 1].start);
+
+            if (current.getTime() - previous.getTime() === 3600000) {
+                end = hours[i].end;
+            } else {
+                groupedHours.push({
+                    start: start,
+                    end: end,
+                    initialCost: 0
+                });
+                start = hours[i].start;
+                end = hours[i].end;
+            }
+        }
+    
+        groupedHours.push({
+            start: start,
+            end: end,
+            initialCost: 0
+        });
+
+        console.log(groupedHours);
+
+        groupedHours.forEach(group => {
+            const endTime = new Date(group.end);
+            if (endTime.getHours() === 0) {
+                let endString = endTime.getFullYear() + '-' + (endTime.getMonth() + 1) + '-' + endTime.getDate() + 'T' + '00:00:00';
+                group.end = endString;
+            }
+        }
+        );
+
+        return groupedHours;
+
+    }
 
     const handleReserve = async () => {
         if (selectedHours.length > 0) {
-            //TODO: send reservation request
-            // const groupedHours = groupSelectedHours(selectedHours);
+            const groupedHours = groupSelectedHours(selectedHours);
+
+            const reservation = {
+                driverId: 2,
+                spotId: spot,
+                lotId: lot,
+                start: null,
+                end: null,
+                initialCost: 0,
+                reservationId: null,
+                violation: null,
+            };
+
+            for (let i = 0; i < groupedHours.length; i++) {
+                reservation.start = groupedHours[i].start;
+                reservation.end = groupedHours[i].end;
+                reservation.initialCost = groupedHours[i].initialCost;
+                try {
+                    const response = await fetch('http://localhost:8080/reservations', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(reservation)
+                    });
+                    if (response.ok) {
+                        console.log('Reservation created');
+                    }
+                } catch (error) {
+                    console.error('Error creating reservation', error);
+                    alert('Error creating reservation');
+                }
+            }
         }
         onClose();
         return;
@@ -136,7 +214,7 @@ function Reservation ({ lot, spot, onClose }) {
                             key={hour} 
                             className={`
                                 ${isReserved(selectedDay ,hour) ? 'reserved-button' : 'not-reserved-button'}
-                                ${selectedHours.includes(selectedDay.fullDate + 'T' + hour.split(' ')[0]+':00') ? 'selected-hour-button' : ''}
+                                ${selectedHours.some(selectedHour => selectedHour.start === selectedDay.fullDate + 'T' + hour.split(' ')[0]+':00')  ? 'selected-hour-button' : ''}
                             `}
                             onClick={selectHours(selectedDay, hour)}
                         >
