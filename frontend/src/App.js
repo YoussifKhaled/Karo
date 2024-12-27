@@ -7,6 +7,7 @@ import Signup from './pages/signup/Signup';
 import Home from './pages/home/Home';
 import ParkingLot from './pages/parkinglot/ParkingLot';
 import NotificationCenter from './pages/notificationcenter/NotificationCenter';
+import Wallet from './pages/wallet/Wallet';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/parking-lot/:lotId" element={<ParkingLot />} />
             <Route path="/notifications" element={<NotificationCenter />} />
+            <Route path="/wallet" element={<Wallet />} />
           </Routes> 
         </main>
       </Router>
