@@ -18,12 +18,12 @@ DB_CONFIG = {
 connection = mysql.connector.connect(**DB_CONFIG)
 cursor = connection.cursor()
 
-def insert_user(name, date_of_birth, email, password_hash, role):
+def insert_user(name, email, password_hash, role):
     query = """
-        INSERT INTO user (name, date_of_birth, email, password_hash, role)
-        VALUES (%s, %s, %s, %s, %s)
+        INSERT INTO user (name, email, password_hash, role)
+        VALUES (%s, %s, %s, %s)
     """
-    cursor.execute(query, (name, date_of_birth, email, password_hash, role))
+    cursor.execute(query, (name, email, password_hash, role))
     connection.commit()
     return cursor.lastrowid
 
@@ -88,11 +88,10 @@ notifications = []
 # Create Users
 for _ in range(10):
     name = fake.name()
-    date_of_birth = fake.date_of_birth(minimum_age=18, maximum_age=70)
     email = fake.unique.email()
     password_hash = fake.sha256()
     role = random.choice(['regular', 'admin', 'driver'])
-    user_id = insert_user(name, date_of_birth, email, password_hash, role)
+    user_id = insert_user(name, email, password_hash, role)
     users.append((user_id, role))
 
 # Create Drivers
