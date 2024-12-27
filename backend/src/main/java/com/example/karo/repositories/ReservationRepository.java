@@ -102,7 +102,7 @@ public class ReservationRepository {
                 .reservationId(rs.getLong("reservation_id"))
                 .driverId(rs.getLong("driver_id"))
                 .spotId(rs.getLong("spot_id"))
-                .lotId(rs.getLong("lot_it"))
+                .lotId(rs.getLong("lot_id"))
                 .start(rs.getTimestamp("start").toLocalDateTime())
                 .end(rs.getTimestamp("end").toLocalDateTime())
                 .violation(rs.getString("violation"))
