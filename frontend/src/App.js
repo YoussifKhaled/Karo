@@ -6,7 +6,7 @@ import Login from './pages/login/Login';
 import Signup from './pages/signup/Signup';
 import Home from './pages/home/Home';
 import ParkingLot from './pages/parkinglot/ParkingLot';
-
+import NotificationCenter from './pages/notificationcenter/NotificationCenter';
 
 function App() {
   return (
@@ -18,6 +18,7 @@ function App() {
             <Route path="/signup" element={<Signup />} /> 
             <Route path="/home" element={<Home />} />
             <Route path="/parking-lot/:lotId" element={<ParkingLot />} />
+            <Route path="/notifications/:userId" element={<NotificationCenter />} />
           </Routes> 
         </main>
       </Router>
