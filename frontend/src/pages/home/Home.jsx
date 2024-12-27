@@ -2,15 +2,16 @@ import './Home.css';
 import { useState,useEffect,useCallback } from 'react';
 import MapComponent from '../../components/map/Map';
 import Header from '../../components/header/Header';
-
+import { useLocation } from 'react-router-dom';
 
 // mode: Driver:0 or Manager:1 or Admin:2
-const mode = 0;
 
 function Home() {
 
   const token = localStorage.getItem('token');
+  const location = useLocation();
 
+  const [mode, setMode] = useState(0)
   const [topDrivers, setTopDrivers] = useState([]);
   const [topParkingLots, setTopParkingLots] = useState([]);
   const [systemManagers, setSystemManagers] = useState([]);
@@ -50,6 +51,28 @@ function Home() {
     }catch (error) {
       console.log(error);
     }
+  }, [token]);
+
+  useEffect(() => {
+    if (location.state?.refresh) {
+      console.log('Refresh triggered');
+    }
+  }, [location.state]);
+
+  useEffect(() => {
+    const getCurrentUserRole = async () => {
+      const response = await fetch("http://localhost:8080/users/role",{
+        method: 'GET',
+        headers: { 
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        }
+      })
+      const data = await response.json();
+      console.log("role: "+data);
+      setMode(data);
+    }
+    getCurrentUserRole();
   }, [token]);
 
   useEffect(() => {
