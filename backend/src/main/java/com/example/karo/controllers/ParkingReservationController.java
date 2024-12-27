@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/reservations")
@@ -16,13 +18,28 @@ public class ParkingReservationController {
     @Autowired
     private ParkingReservationService parkingReservationService;
 
-    @PostMapping
-    public ResponseEntity<Long> createReservation(@RequestBody Reservation reservation) {
+    @PostMapping("/create")
+    public ResponseEntity<?> createReservation(@RequestBody Map<String, Object> map) {
         try {
+            Integer driverId = (Integer) map.get("driverId");
+            Integer lotId = (Integer) map.get("lotId");
+            Integer spotId = (Integer) map.get("spotId");
+            String start = (String) map.get("start");
+            String end = (String) map.get("end");
+
+            Reservation reservation = Reservation.builder()
+                            .driverId(Long.valueOf(driverId))
+                            .lotId(Long.valueOf(lotId))
+                            .spotId(Long.valueOf(spotId))
+                            .start(LocalDateTime.parse(start))
+                            .end(LocalDateTime.parse(end))
+                            .build();
+
+            System.out.println(reservation.getSpotId());
             long reservationId = parkingReservationService.createReservation(reservation);
             return new ResponseEntity<>(reservationId, HttpStatus.CREATED);
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 

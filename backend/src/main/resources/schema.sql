@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS user_notification (
     FOREIGN KEY (notification_id) REFERENCES notification(notification_id) ON DELETE CASCADE
 );
 
--- Indexes
+---- Indexes
 --CREATE INDEX idx_driver_user_id ON driver(user_id);
 --CREATE INDEX idx_parking_lot_manager_id ON parking_lot(manager_id);
 --CREATE INDEX idx_parking_spot_lot_id ON parking_spot(lot_id);
@@ -86,8 +86,55 @@ CREATE TABLE IF NOT EXISTS user_notification (
 --CREATE INDEX idx_parking_spot_status ON parking_spot(spot_status);
 --CREATE INDEX idx_reservation_time ON reservation(start, end);
 --CREATE INDEX idx_notification_sent_at ON notification(sent_at);
+
+-- Stored Procedures
+--CREATE PROCEDURE make_reservation(
+--    IN p_driver_id BIGINT,
+--    IN p_spot_id BIGINT,
+--    IN p_lot_id BIGINT,
+--    IN p_start_time DATETIME,
+--    IN p_end_time DATETIME
+--)
+--BEGIN
+--    DECLARE base_price DECIMAL(10, 2);
+--    DECLARE dynamic_price DECIMAL(10, 2);
+--    DECLARE spot_type ENUM('regular', 'disabled', 'EV charging');
+--    DECLARE start_hour INT;
 --
----- Stored Procedures
+--    -- Get the base price for the parking lot
+--    SELECT price INTO base_price
+--    FROM parking_lot
+--    WHERE lot_id = p_lot_id;
+--
+--    -- Get the spot type
+--    SELECT type INTO spot_type
+--    FROM parking_spot
+--    WHERE spot_id = p_spot_id;
+--
+--    -- Calculate dynamic price based on spot type
+--    CASE
+--        WHEN spot_type = 'regular' THEN SET dynamic_price = base_price;
+--        WHEN spot_type = 'disabled' THEN SET dynamic_price = base_price * 0.8; -- 20% discount
+--        WHEN spot_type = 'EV charging' THEN SET dynamic_price = base_price * 1.2; -- 20% surcharge
+--    END CASE;
+--
+--    -- Extract the start hour from the reservation start time
+--    SET start_hour = HOUR(p_start_time);
+--
+--    -- Add a surcharge if the time is between 1 PM (13:00) and 5 PM (17:00)
+--    IF start_hour BETWEEN 13 AND 17 THEN
+--        SET dynamic_price = dynamic_price * 1.25;  -- Example: 25% surcharge during rush hours
+--    END IF;
+--
+--    -- Insert the reservation
+--    INSERT INTO reservation (
+--        driver_id, spot_id, lot_id, start, end, initial_cost, violation
+--    ) VALUES (
+--        p_driver_id, p_spot_id, p_lot_id, p_start_time, p_end_time, dynamic_price, 'Not Shown'
+--    );
+--END;
+
+
 --DELIMITER //
 --CREATE PROCEDURE MakeReservation(
 --    IN p_driver_id BIGINT,

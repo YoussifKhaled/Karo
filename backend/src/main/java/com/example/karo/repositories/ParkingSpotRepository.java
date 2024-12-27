@@ -19,7 +19,7 @@ public class ParkingSpotRepository {
             """;
     private static final String SQL_FIND_SPOT_BY_ID = """
             SELECT * FROM parking_spot
-            WHERE spot_id = ?;
+            WHERE spot_id = ? AND lot_id = ?;
             """;
     private static final String SQL_FIND_SPOTS_BY_LOT_ID = """
             SELECT * FROM parking_spot
@@ -66,8 +66,8 @@ public class ParkingSpotRepository {
         return count == 1;
     }
 
-    public ParkingSpot findSpotById(long spotId) {
-        return jdbcTemplate.queryForObject(SQL_FIND_SPOT_BY_ID, new Object[]{spotId}, parkingSpotRowMapper);
+    public ParkingSpot findSpotById(long spotId, long lotId) {
+        return jdbcTemplate.queryForObject(SQL_FIND_SPOT_BY_ID, new Object[]{spotId, lotId}, parkingSpotRowMapper);
     }
 
     public List<ParkingSpot> findSpotsByLotId(long lotId, int limit, int offset) {
