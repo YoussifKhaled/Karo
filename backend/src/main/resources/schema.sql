@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS reservation (
 CREATE TABLE IF NOT EXISTS notification (
     notification_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     sent_at DATETIME NOT NULL,
-    type ENUM('Payment Reminder', 'Spot Availability', 'Reservation Confirmation', 'Sensor Alert', 'General Update'),
+    type ENUM('Reservation Reminder', 'Reservation Confirmation'),
     content TEXT NOT NULL
 );
 
