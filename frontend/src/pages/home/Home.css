@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
     padding-top: 3.5rem;
+    overflow: hidden;
 }
 
 .map-container {
@@ -31,6 +32,19 @@
     padding: 0;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #16a8e6;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+
 .list-title {
     background-color: #16a8e6;
     width: 95%;
@@ -40,4 +54,70 @@
     font-weight: bold;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+}
+
+.driver-list-item {
+    width: 95%;
+    padding: 0.5rem;
+    border-bottom: 1px ridge #1bbbff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.driver-list-item:hover {
+    background-color: #f0f0f0;
+}
+
+.lot-list-item {
+    width: 95%;
+    padding: 0.5rem;
+    border-bottom: 1px ridge #1bbbff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lot-list-item:hover {
+    background-color: #f0f0f0;
+}
+
+.manager-list-item {
+    width: 95%;
+    padding: 0.5rem;
+    border-bottom: 1px ridge #1bbbff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.manager-list-item:hover {
+    background-color: #f0f0f0;
+}
+
+.delete-icon {
+    color: red;
+    cursor: pointer;
+    display: none;
+    right: 0;
+}
+
+.delete-icon:hover {
+    color: darkred;
+    font-weight: bold;
+}
+
+.lot-list-item:hover .delete-icon {
+    display: block;
+}
+
+.driver-list-item:hover .delete-icon {
+    display: block;
+}
+
+.manager-list-item:hover .delete-icon {
+    display: block;
 }
