@@ -26,8 +26,8 @@ public class ParkingReservationService {
         if (spot == null || !Objects.equals(spot.getLotId(), reservation.getLotId()))
             throw new IllegalArgumentException("Invalid parking spot or lot ID");
 
-        if (!"available".equals(spot.getSpotStatus()))
-            throw new IllegalStateException("Parking spot is not available for reservation");
+        // if (!"available".equals(spot.getSpotStatus()))
+        //     throw new IllegalStateException("Parking spot is not available for reservation");
 
         parkingSpotService.updateParkingSpotStatus(reservation.getSpotId(), "reserved");
 
