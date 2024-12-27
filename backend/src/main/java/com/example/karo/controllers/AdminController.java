@@ -46,4 +46,14 @@ public class AdminController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
     }
+
+    @GetMapping("/all-managers")
+    public ResponseEntity<?> getAllManagers() {
+        try {
+            List<User> managers = adminService.getAllManagers();
+            return ResponseEntity.ok(managers);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
+    }
 }
