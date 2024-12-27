@@ -14,6 +14,8 @@ import java.util.Collections;
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
 public class User implements UserDetails {
     private Long userId;
