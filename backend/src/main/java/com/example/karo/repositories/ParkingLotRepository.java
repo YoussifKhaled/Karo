@@ -15,9 +15,9 @@ public class ParkingLotRepository {
 
     private static final String SQL_INSERT_PARKING_LOT = """
             INSERT INTO parking_lot
-            	(manager_id, longitude, latitude, capacity, safe)
+            	(manager_id, longitude, latitude, capacity, safe, price)
             VALUES
-            	(?, ?, ?, ?, ?);
+            	(?, ?, ?, ?, ?, ?);
             """;
     private static final String SQL_FIND_LOT_BY_ID = """
             SELECT *
@@ -61,6 +61,7 @@ public class ParkingLotRepository {
             ps.setDouble(3, parkingLot.getLatitude());
             ps.setInt(4, parkingLot.getCapacity());
             ps.setInt(5, parkingLot.getSafe());
+            ps.setDouble(6, parkingLot.getPrice());
             return ps;
         }, keyHolder);
 
@@ -100,6 +101,7 @@ public class ParkingLotRepository {
                 .latitude(rs.getDouble("latitude"))
                 .capacity(rs.getInt("capacity"))
                 .safe(rs.getInt("safe"))
+                .price(rs.getDouble("price"))
                 .build()
     );
 }

@@ -27,7 +27,6 @@ public class ParkingLotService {
                 .type("regular")
                 .spotStatus("available")
                 .sensorStatus("active")
-                .price(100.0)
                 .build();
         for (int spotId = 1; spotId <= parkingLot.getCapacity(); ++spotId) {
             parkingSpot.setSpotId((long) spotId);

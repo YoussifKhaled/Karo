@@ -7,13 +7,17 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ReservationRepository {
@@ -57,27 +61,27 @@ public class ReservationRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Transactional
     public long insertReservation(Reservation reservation) {
         if (reservation == null)
             throw new IllegalArgumentException("Reservation cannot be null");
 
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withProcedureName("make_reservation");
 
-        int count = jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(SQL_INSERT_RESERVATION, new String[]{"reservation_id"});
-            ps.setLong(1, reservation.getDriverId());
-            ps.setLong(2, reservation.getSpotId());
-            ps.setLong(3, reservation.getLotId());
-            ps.setTimestamp(4, Timestamp.valueOf(reservation.getStart()));
-            ps.setTimestamp(5, Timestamp.valueOf(reservation.getEnd()));
-            ps.setString(6, reservation.getViolation());
-            ps.setDouble(7, reservation.getInitialCost());
-            return ps;
-        }, keyHolder);
+        // Input parameters
+        MapSqlParameterSource inParams = new MapSqlParameterSource()
+                .addValue("p_driver_id", reservation.getDriverId())
+                .addValue("p_spot_id", reservation.getSpotId())
+                .addValue("p_lot_id", reservation.getLotId())
+                .addValue("p_start_time", Timestamp.valueOf(reservation.getStart()))
+                .addValue("p_end_time", Timestamp.valueOf(reservation.getEnd()));
 
-        if (count == 1)
-            return keyHolder.getKey().longValue();
-        throw new RuntimeException("Failed to insert reservation");
+        // Execute the stored procedure
+        Map<String, Object> outParams = jdbcCall.execute(inParams);
+
+        // Retrieve the reservation ID
+        return ((Number) outParams.get("p_reservation_id")).longValue();
     }
 
     public Reservation findReservationById(Long reservationId) {

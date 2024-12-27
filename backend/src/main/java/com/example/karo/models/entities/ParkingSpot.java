@@ -22,6 +22,4 @@ public class ParkingSpot {
     private String spotStatus;
 
     private String sensorStatus;
-
-    private Double price;
 }
