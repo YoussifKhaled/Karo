@@ -47,7 +47,6 @@ public class DriverRepository {
         Driver.builder()
             .userId(rs.getLong("user_id"))
             .name(rs.getString("name"))
-            .dateOfBirth(rs.getDate("date_of_birth"))
             .email(rs.getString("email"))
             .role(rs.getString("role"))
             .passwordHash(rs.getString("password_hash"))
