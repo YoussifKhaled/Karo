@@ -31,6 +31,7 @@ public class ParkingLotController {
             List<ParkingLot> parkingLots = parkingLotService.getAllParkingLots();
             return ResponseEntity.ok(parkingLots);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
     }
