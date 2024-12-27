@@ -18,4 +18,6 @@ public class ParkingLot {
     private Integer capacity;
 
     private Integer safe;
+
+    private Double price;
 }

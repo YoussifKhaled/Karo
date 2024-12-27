@@ -26,10 +26,10 @@ public class ParkingSpotController {
         }
     }
 
-    @GetMapping("/{spotId}")
-    public ResponseEntity<?> getParkingSpotById(@PathVariable Long spotId) {
+    @GetMapping("/spot")
+    public ResponseEntity<?> getParkingSpotById(@RequestParam Long spotId, @RequestParam Long lotId) {
         try {
-            ParkingSpot parkingSpot =  parkingSpotService.getParkingSpotById(spotId);
+            ParkingSpot parkingSpot =  parkingSpotService.getParkingSpotById(spotId, lotId);
             return ResponseEntity.ok(parkingSpot);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);

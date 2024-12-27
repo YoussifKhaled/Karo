@@ -19,8 +19,8 @@ public class ParkingSpotService {
         return parkingSpotRepository.insertParkingSpot(parkingSpot);
     }
 
-    public ParkingSpot getParkingSpotById(long spotId) {
-        return parkingSpotRepository.findSpotById(spotId);
+    public ParkingSpot getParkingSpotById(long spotId, long lotId) {
+        return parkingSpotRepository.findSpotById(spotId, lotId);
     }
 
     public List<ParkingSpot> getParkingSpotsByLotId(long lotId, int limit, int offset) {
