@@ -25,6 +25,11 @@ public class UserRepository {
             	(?, ?, ?, ?, ?, ?);
     """;
 
+    private static final String SQL_DELETE_USER_BY_ID = """
+        DELETE FROM user
+        WHERE user_id = ?;
+        """;
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -32,7 +37,7 @@ public class UserRepository {
         if (user == null)
             throw new IllegalArgumentException("user is null");
 
-        int count = jdbcTemplate.update(
+        jdbcTemplate.update(
             SQL_INSERT_USER,
             user.getUserId(),
             user.getName(),
@@ -47,12 +52,18 @@ public class UserRepository {
         return jdbcTemplate.queryForObject(SQL_FIND_USER_BY_EMAIL, new Object[]{email}, userRowMapper);
     }
 
+    public boolean deleteUserById(Long userId) {
+        return jdbcTemplate.update(SQL_DELETE_USER_BY_ID, userId) == 1;
+    }
+
     private final RowMapper<User> userRowMapper = (((rs, rowNum) ->
         User.builder()
             .userId(rs.getLong("user_id"))
             .name(rs.getString("name"))
             .dateOfBirth(rs.getDate("date_of_birth"))
             .email(rs.getString("email"))
+            .role(rs.getString("role"))
+            .passwordHash(rs.getString("password_hash"))
             .build()
     ));
 }
