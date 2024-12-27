@@ -9,10 +9,28 @@ function CreateManager() {
     const [password, setPassword] = useState('');
 
     const navigate = useNavigate();
+    const token = localStorage.getItem('token');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(name, email, password);
+        try {
+            const user = {
+                name: name,
+                email: email,
+                passwordHash: password,
+                role: 'manager'
+            };
+            fetch('http://localhost:8080/admin/create-manager', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(user)
+            });
+        } catch (error) {
+            console.log(error);
+        }
         navigate(-1);
     };
 
