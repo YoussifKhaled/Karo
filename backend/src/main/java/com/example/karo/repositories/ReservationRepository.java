@@ -61,6 +61,7 @@ public class ReservationRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Transactional
     public long insertReservation(Reservation reservation) {
         if (reservation == null)
             throw new IllegalArgumentException("Reservation cannot be null");
