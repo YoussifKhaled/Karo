@@ -1,9 +1,10 @@
 package com.example.karo.models.entities;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ParkingLot {
     private Long lotId;
