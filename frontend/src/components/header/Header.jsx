@@ -5,7 +5,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
-function Header ({title}) {
+function Header ({title,mode}) {
 
   const navigate = useNavigate();
   const [dropdown, setDropdown] = useState(false);
@@ -21,25 +21,62 @@ function Header ({title}) {
 
   return (
     <>
-      <div className="header">
-          <HomeIcon className="home-icon" sx={{ fontSize: 30 }}
-          onClick={() => navigate('/home')}
-          />
-          <span className="karo">{title}</span>
-          <NotificationsIcon className="notification-icon" sx={{ fontSize: 30 }}
-          onClick={() => navigate('/notifications')}
-          />
-          <AccountCircleIcon
-            className="account-icon" sx={{ fontSize: 30 }}
-            onClick={() => setDropdown(!dropdown)}
-          />
-      </div>
-      {dropdown && (
-        <ul className="dropdown">
-            <li className="dropdown-element" onClick={goToWallet}>Wallet</li>
-            <li className="dropdown-element" onClick={logOut}>Logout</li>
-        </ul>
-      )}
+      {
+        mode === 0 && // Driver
+        <>
+          <div className="header">
+              <HomeIcon 
+                className="home-icon" sx={{ fontSize: 30 }}
+                onClick={() => navigate('/home')}
+              />
+              <span className="karo">{title}</span>
+              <NotificationsIcon 
+                className="notification-icon" sx={{ fontSize: 30 }}
+                onClick={() => navigate('/notifications')}
+              />
+              <AccountCircleIcon
+                className="account-icon" sx={{ fontSize: 30 }}
+                onClick={() => setDropdown(!dropdown)}
+              />
+          </div>
+          {dropdown && (
+            <ul className="dropdown">
+                <li className="dropdown-element" onClick={goToWallet}>Wallet</li>
+                <li className="dropdown-element" onClick={logOut}>Logout</li>
+            </ul>
+          )}
+        </>
+      }
+      {
+        mode === 1 && // Manager
+        <>
+          <div className="header">
+              <HomeIcon 
+                className="home-icon" sx={{ fontSize: 30 }}
+                onClick={() => navigate('/home')}
+              />
+              <span className="karo">{title}</span>
+              <NotificationsIcon 
+                className="notification-icon" sx={{ fontSize: 30 }}
+                onClick={() => navigate('/notifications')}
+              />
+          </div>
+        </>
+      }
+      {
+        mode === 2 && // Admin
+        <>
+          <div className="header">
+              <HomeIcon 
+                className="home-icon" sx={{ fontSize: 30 }}
+                onClick={() => navigate('/home')}
+              />
+              <span className="karo">{title}</span>
+              <button className="create-manager" onClick={() => navigate('/create-manager')}>Create Manager</button>
+              <button className="admin-logout" onClick={logOut}>Logout</button>
+          </div>
+        </>
+      }
     </>
     );
 }
