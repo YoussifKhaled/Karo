@@ -1,0 +1,128 @@
+.reservationWrapper {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+}
+
+.reservation {
+    width: 50%;
+    height: 99%;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.day-selection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 10%;
+    border-bottom: 1px solid #e0e0e0;
+    gap: 0.5rem;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+}
+
+.day-button {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.day-button.selected {
+    box-shadow: 0 0 2px 1px #011b27;
+    background-color: #b3d6e7;
+}
+
+.day-button:hover {
+    background-color: #f0f0f0;
+}
+
+.hour-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    height: 90%;
+    margin: 1rem;
+}
+
+.not-reserved-button {
+    margin-bottom: 0.1rem;
+    width: 30vw;
+    display: flex;
+    cursor: pointer;
+    box-shadow: -1px 1px 1px 0 #011b27;
+    border-radius: 10px;
+    padding-left: 1.5rem;
+}
+
+.not-reserved-button:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 1px 0 0 #011b27;
+}
+
+.reserved-button {
+    width: 30vw;
+    display: flex;
+    cursor: not-allowed;
+    box-shadow: 0 1px 0 0 #161d20;
+    border-radius: 10px;
+    padding-left: 1.5rem;
+    background-color: #f0f0f0;
+}
+
+.hour-details {
+    font-style: italic;
+}
+
+.reserved-details {
+    font-style: oblique;
+    font-weight: bold;
+    color: #16272e;
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
+.selected-hour-button {
+    background-color: #5d9ab8;
+}
+
+.selected-hour-button:hover {
+    background-color: #5d9ab8;
+}
+
+.reserve-button {
+    width: 20vw;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #011b27;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: auto;
+    margin-bottom: 0.2rem;
+}
+
+.reserve-button:hover {
+    background-color: #1b333d;
+}
