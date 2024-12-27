@@ -7,26 +7,11 @@ function NotificationCenter() {
     const [notifications, setNotifications] = useState([]); // State to store notifications
     const token = localStorage.getItem('token')
 
-    // useEffect(() => {
-    //     const fetchBooks = async () => {
-    //         const response = await fetch(
-    //                 `http://localhost:8080/books?page=${page}&size=${PAGESIZE}`, {
-    //                 method: 'GET',
-    //                 headers: {"Authorization": `Bearer ${token}`},
-    //             }
-    //         );
-    //         const data = await response.json();
-    //         console.log(data)
-    //         setBooks((prev) => [...prev, ...data]);
-    //     };
-    //     fetchBooks();
-    // }, [page, token]);
-
     useEffect(() => {
         fetch(`http://localhost:8080/notifications`, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             }
         })

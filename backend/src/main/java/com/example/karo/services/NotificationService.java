@@ -16,12 +16,16 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final UserNotificationRepository userNotificationRepository;
 
+    private final UserService userService;
+
     public NotificationService(ReservationRepository reservationRepository,
                                NotificationRepository notificationRepository,
-                               UserNotificationRepository userNotificationRepository) {
+                               UserNotificationRepository userNotificationRepository,
+                               UserService userService) {
         this.reservationRepository = reservationRepository;
         this.notificationRepository = notificationRepository;
         this.userNotificationRepository = userNotificationRepository;
+        this.userService = userService;
     }
 
     @Scheduled(fixedRate = 60000) // Runs every minute
@@ -54,7 +58,8 @@ public class NotificationService {
         userNotificationRepository.saveUserNotification(userId, notificationId);
     }
 
-    public List<Notification> getUserNotifications(Long userId) {
+    public List<Notification> getUserNotifications() {
+        long userId = userService.getCurrentUser().getUserId();
         return notificationRepository.findNotificationsByUserId(userId);
     }
 }

@@ -15,9 +15,9 @@ public class NotificationController {
         this.notificationService = notificationService;
     }
 
-    @GetMapping("/{userId}")
-    public List<Notification> getUserNotifications(@PathVariable Long userId) {
+    @GetMapping()
+    public List<Notification> getUserNotifications() {
         System.out.println("yaraaabb");
-        return notificationService.getUserNotifications(userId);
+        return notificationService.getUserNotifications();
     }
 }
