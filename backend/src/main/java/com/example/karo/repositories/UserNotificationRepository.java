@@ -10,9 +10,5 @@ public class UserNotificationRepository {
     public UserNotificationRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
-    public int saveUserNotification(Long userId, Long notificationId) {
-        String sql = "INSERT INTO USER_NOTIFICATION (user_id, notification_id) VALUES (?, ?)";
-        return jdbcTemplate.update(sql, userId, notificationId);
-    }
+    
 }
