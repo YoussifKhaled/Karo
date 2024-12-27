@@ -1,5 +1,6 @@
 package com.example.karo.repositories;
 
+import com.example.karo.models.entities.Driver;
 import com.example.karo.models.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -29,6 +30,16 @@ public class UserRepository {
         DELETE FROM user
         WHERE user_id = ?;
         """;
+    private static final String SQL_FIND_DRIVER_BY_ID = """
+        SELECT *
+        FROM driver
+        WHERE user_id = ?;
+        """;
+    private static final String SQL_ADD_BALANCE = """
+            UPDATE driver
+            SET balance = balance + ?
+            WHERE user_id = ?;
+            """;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -53,6 +64,19 @@ public class UserRepository {
 
     public boolean deleteUserById(Long userId) {
         return jdbcTemplate.update(SQL_DELETE_USER_BY_ID, userId) == 1;
+    }
+
+    public Driver findDriverById(long userId) {
+        return jdbcTemplate.queryForObject(SQL_FIND_DRIVER_BY_ID, new Object[]{userId},
+                (rs, rowNum) -> Driver.builder()
+                        .userId(rs.getLong("user_id"))
+                        .balance(rs.getInt("balance"))
+                        .licensePlateNumber(rs.getString("license_plate_number"))
+                        .build());
+    }
+
+    public void addBalance(long userId, int balance) {
+        jdbcTemplate.update(SQL_ADD_BALANCE, balance, userId);
     }
 
     private final RowMapper<User> userRowMapper = (((rs, rowNum) ->
