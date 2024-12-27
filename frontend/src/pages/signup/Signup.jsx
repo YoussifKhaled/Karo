@@ -13,7 +13,7 @@ function Signup() {
   const [errorMessage, setErrorMessage] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [licensePlateNumber, setLicensePlateNumber] = useState("");
-  const [licensePlateNumberError, setLicensePlateNumberError] = useState("");
+  const [licensePlateError, setLicensePlateError] = useState("");
 
   const fieldsSigned = () => {
     return name && password && confirmPassword;
@@ -29,28 +29,33 @@ function Signup() {
     if (!fieldsSigned()) {
       setErrorMessage('** Please fill out all fields');
       setPasswordError("")
+      setLicensePlateError("")
       return;
     }
 
     if (!checkPasswordsMatch()) {
       setPasswordError('** Passwords do not match');
       setErrorMessage("")
+      setLicensePlateError("")
       return;
     }
 
     if(password.length < 7){
       setPasswordError("The password must be at least 8 characters");
       setErrorMessage("")
+      setLicensePlateError("")
       return;
     }
     if(password.length > 50){
       setPasswordError("The password must be at most 50 characters");
       setErrorMessage("")
+      setLicensePlateError("")
       return;
     }
 
     setErrorMessage("");
     setPasswordError("");
+    setLicensePlateError("")
 
     const registerUser = {
       name: name,
@@ -72,12 +77,15 @@ function Signup() {
       else{
         // duplicate email message or duplicate license plate number
         const message = await response.text();
-        setErrorMessage(message)
+        if(message.includes("Email")) 
+            setErrorMessage(message)
+        else if(message.includes("License plate")) 
+            setLicensePlateError(message)  
       }
        
     } catch (error) {
       console.log('Registration failed:', error.response ? error.response.data : error.message);
-      setErrorMessage('Registration failed. Please try again.');
+      setErrorMessage('Registration failed');
     }
   };
 
@@ -162,7 +170,7 @@ function Signup() {
             onChange={(e) => setLicensePlateNumber(e.target.value)}
           />
           <Typography variant="subtitle2" color="red" height="10px">
-            {licensePlateNumberError}
+            {licensePlateError}
           </Typography>
           <Button
             type="submit"

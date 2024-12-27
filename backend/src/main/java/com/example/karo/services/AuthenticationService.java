@@ -47,7 +47,7 @@ public class AuthenticationService {
             User savedUser = userRepository.insertUser(user);
 
             ResponseEntity<String> driverResponse = addDriver(registerUserDTO, savedUser);
-            return driverResponse.getStatusCode() == HttpStatus.UNAUTHORIZED ? driverResponse :
+            return driverResponse.getStatusCode() == HttpStatus.CONFLICT ? driverResponse :
                 ResponseEntity.ok(savedUser);
 
         } catch (DataIntegrityViolationException e) {
@@ -69,7 +69,7 @@ public class AuthenticationService {
         } catch (DataIntegrityViolationException e) {
             userRepository.deleteUserById(savedUser.getUserId());
             return new ResponseEntity<>("License plate number already exists!"
-                , HttpStatus.UNAUTHORIZED);
+                , HttpStatus.CONFLICT);
         }
     }
 
