@@ -31,7 +31,7 @@ function CreateManager() {
         } catch (error) {
             console.log(error);
         }
-        navigate(-1);
+        navigate('/home', { state: { refresh: true } });
     };
 
     return (
