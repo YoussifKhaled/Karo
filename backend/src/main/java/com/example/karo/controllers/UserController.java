@@ -27,7 +27,7 @@ public class UserController {
     @GetMapping("/role")
     public int getRoleCurrentUser() {
         return userService.getRoleCurrentUser();
-
+    }
     @GetMapping("/wallet")
     public Integer getWallet() {
         return userService.getBalance();
