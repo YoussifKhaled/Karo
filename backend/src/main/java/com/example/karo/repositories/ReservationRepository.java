@@ -20,7 +20,7 @@ public class ReservationRepository {
 
     public List<Reservation> findReservationsByStartTime(LocalDateTime targetTime) {
         String sql = "SELECT * FROM RESERVATION WHERE start = ?";
-        return jdbcTemplate.query(sql, new ReservationRowMapper(), targetTime);
+        return jdbcTemplate.query(sql, reservationRowMapper, targetTime);
     }
 
     private static final String SQL_INSERT_RESERVATION = """
