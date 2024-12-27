@@ -149,7 +149,7 @@ function Reservation ({ lot, spot, onClose }) {
         groupedHours.forEach(group => {
             const endTime = new Date(group.end);
             if (endTime.getHours() === 0) {
-                let endString = endTime.getFullYear() + '-' + (endTime.getMonth() + 1) + '-' + endTime.getDate() + 'T' + '00:00:00';
+                let endString = endTime.getFullYear() + '-' + (endTime.getMonth() + 1) + '-' + endTime.getDate() + 'T00:00:00';
                 group.end = endString;
             }
         }

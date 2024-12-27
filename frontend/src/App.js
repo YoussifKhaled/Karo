@@ -7,6 +7,8 @@ import Signup from './pages/signup/Signup';
 import Home from './pages/home/Home';
 import ParkingLot from './pages/parkinglot/ParkingLot';
 import NotificationCenter from './pages/notificationcenter/NotificationCenter';
+import Wallet from './pages/wallet/Wallet';
+import CreateManager from './pages/create-manager/CreateManager';
 
 function App() {
   return (
@@ -15,11 +17,13 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/signup" element={<Signup />} /> 
+            <Route path="/signup" element={<Signup />} />
             <Route path="/home" element={<Home />} />
             <Route path="/parking-lot/:lotId" element={<ParkingLot />} />
             <Route path="/notifications" element={<NotificationCenter />} />
-          </Routes> 
+            <Route path="/wallet" element={<Wallet />} />
+            <Route path="/create-manager" element={<CreateManager />} />
+          </Routes>
         </main>
       </Router>
     </div>

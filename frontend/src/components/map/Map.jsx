@@ -13,7 +13,7 @@ const customIcon = new L.Icon({
     tooltipSize: [40, 40],
 });
 
-function MapComponent () {
+function MapComponent ({mode}) {
 
     const navigate = useNavigate();
     const [parkingLots, setParkingLots] = useState([]);
