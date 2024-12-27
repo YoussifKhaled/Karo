@@ -2,7 +2,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import React, { useState } from 'react'
 
-function Password({value, setValue}) {
+function Password({value, setValue, placeholder}) {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -11,8 +11,8 @@ function Password({value, setValue}) {
             margin="normal"
             required
             fullWidth
-            name="password"
-            label="Password"
+            name={placeholder}
+            label={placeholder}
             type={showPassword ? "text" : "password"}
             InputProps={{
               endAdornment: (
