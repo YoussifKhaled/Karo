@@ -164,14 +164,10 @@ function Reservation ({ lot, spot, onClose }) {
             const groupedHours = groupSelectedHours(selectedHours);
 
             const reservation = {
-                driverId: 1,
                 spotId: spot,
                 lotId: lot,
                 start: null,
                 end: null,
-                initialCost: 0,
-                reservationId: null,
-                violation: null,
             };
 
             for (let i = 0; i < groupedHours.length; i++) {
@@ -179,7 +175,7 @@ function Reservation ({ lot, spot, onClose }) {
                 reservation.end = groupedHours[i].end;
                 reservation.initialCost = groupedHours[i].initialCost;
                 try {
-                    const response = await fetch('http://localhost:8080/reservations', {
+                    const response = await fetch('http://localhost:8080/reservations/create', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

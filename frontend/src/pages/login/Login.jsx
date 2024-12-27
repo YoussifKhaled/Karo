@@ -82,6 +82,7 @@ function Login() {
           <Password
             value={password}
             setValue={setPassword}
+            placeholder={"password"}
           />
           <Typography variant="subtitle2" color="red" height="10px">
             {errorMessage}

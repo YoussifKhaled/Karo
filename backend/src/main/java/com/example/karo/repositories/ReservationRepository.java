@@ -60,7 +60,7 @@ public class ReservationRepository {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
+  
     public long insertReservation(Reservation reservation) {
         if (reservation == null)
             throw new IllegalArgumentException("Reservation cannot be null");

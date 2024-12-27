@@ -16,7 +16,13 @@ function Signup() {
   const [licensePlateError, setLicensePlateError] = useState("");
 
   const fieldsSigned = () => {
-    return name && password && confirmPassword;
+    return (
+      name.trim() && 
+      email.trim() && 
+      password.trim() && 
+      confirmPassword.trim() && 
+      licensePlateNumber.trim()
+    );
   };
 
   const checkPasswordsMatch = () => {
@@ -58,10 +64,10 @@ function Signup() {
     setLicensePlateError("")
 
     const registerUser = {
-      name: name,
-      email: email,
+      name: name.trim(),
+      email: email.trim(),
       password: password,
-      licensePlateNumber: licensePlateNumber
+      licensePlateNumber: licensePlateNumber.trim(),
     };
 
     try {
@@ -150,10 +156,12 @@ function Signup() {
           <Password
             value={password}
             setValue={setPassword}
+            placeholder={"password"}
           />
           <Password
             value={confirmPassword}
             setValue={setConfirmPassword}
+            placeholder={"confirm password"}
           />
           <Typography variant="subtitle2" color="red" height="20px">
             {passwordError}

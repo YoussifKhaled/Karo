@@ -2,6 +2,7 @@ package com.example.karo.controllers;
 
 import com.example.karo.models.entities.Reservation;
 import com.example.karo.services.ParkingReservationService;
+import com.example.karo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +19,21 @@ public class ParkingReservationController {
     @Autowired
     private ParkingReservationService parkingReservationService;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/create")
     public ResponseEntity<?> createReservation(@RequestBody Map<String, Object> map) {
         try {
-            Integer driverId = (Integer) map.get("driverId");
+            long driverId = userService.getCurrentUser().getUserId();
+
             Integer lotId = (Integer) map.get("lotId");
             Integer spotId = (Integer) map.get("spotId");
             String start = (String) map.get("start");
             String end = (String) map.get("end");
-
+            
             Reservation reservation = Reservation.builder()
-                            .driverId(Long.valueOf(driverId))
+                            .driverId(driverId)
                             .lotId(Long.valueOf(lotId))
                             .spotId(Long.valueOf(spotId))
                             .start(LocalDateTime.parse(start))
@@ -39,6 +44,7 @@ public class ParkingReservationController {
             long reservationId = parkingReservationService.createReservation(reservation);
             return new ResponseEntity<>(reservationId, HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

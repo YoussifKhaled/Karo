@@ -19,6 +19,15 @@ public class UserService {
         String email = authenticationService.getCurrentEmail();
         return userRepository.findUserByEmail(email);
     }
+2
+    public int getRoleCurrentUser() {
+        String role = getCurrentUser().getRole();
+
+        int roleNumber = 0 ; // driver
+        if ("manager".equals(role))      roleNumber = 1;
+        else if ("admin".equals(role)) roleNumber = 2;
+
+        return roleNumber;
 
     public Driver getDriver() {
         User user = getCurrentUser();

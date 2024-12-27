@@ -23,7 +23,12 @@ function MapComponent ({mode}) {
     }
 
     useEffect(() => {
-        fetch('http://localhost:8080/lot/all')
+        fetch('http://localhost:8080/lot/all',{
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            }
+        })
             .then(response => response.json())
             .then(data => setParkingLots(data))
             .catch(error => console.error(error));
