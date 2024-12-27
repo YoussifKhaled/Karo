@@ -51,6 +51,7 @@ public class AuthenticationService {
                 ResponseEntity.ok(savedUser);
 
         } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
             return new ResponseEntity<>("Email already exists!" , HttpStatus.CONFLICT);
         }
     }

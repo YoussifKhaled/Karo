@@ -1,45 +1,74 @@
 import './ParkingLot.css';
-import { useState } from 'react';
+import { useState,useEffect,useRef } from 'react';
+import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import EvStationIcon from '@mui/icons-material/EvStation';
 import AccessibleIcon from '@mui/icons-material/Accessible';
-import Reservation from './../../components/reservation/Reservation';
-
-const parkingSpots = [
-    { id: 1, status: 'open', type: 'regular' },
-    { id: 2, status: 'open', type: 'disabled' },
-    { id: 3, status: 'open', type: 'regular' },
-    { id: 4, status: 'open', type: 'regular' },
-    { id: 5, status: 'open', type: 'ev' },
-    { id: 6, status: 'open', type: 'regular' },
-    { id: 7, status: 'open', type: 'regular' },
-    { id: 8, status: 'reserved', type: 'regular' },
-    { id: 9, status: 'open', type: 'regular' },
-    { id: 10, status: 'open', type: 'disabled' },
-    { id: 11, status: 'reserved', type: 'regular' },
-    { id: 12, status: 'open', type: 'ev' },
-    { id: 13, status: 'open', type: 'regular' },
-    { id: 14, status: 'reserved', type: 'disabled' },
-    { id: 15, status: 'open', type: 'regular' }
-]
+import Reservation from '../../components/reservation/ReservationModal';
 
 function ParkingLot() {
 
     const { lotId } = useParams();
+    const numericLotId = Number(lotId);
     const [reservingSpot, setReservingSpot] = useState(null);
+
+    const pageSize = 11;
+    const [page, setPage] = useState(0);
+    const [parkingSpots, setParkingSpots] = useState([]);
+
+    const scrollContainerRef = useRef(null);
+    const prevScrollRef = useRef(0);
+
+    const fetchParkingSpots = useCallback(async (reset = false) => {
+        const currentPage = reset ? 0 : page;
+        const response = await fetch(
+            `http://localhost:8080/spot/lot-spots/${numericLotId}?limit=${pageSize}&offset=${currentPage * pageSize}`, {
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        const data = await response.json();
+        if (reset) {
+            setParkingSpots([...data]);
+            setPage(0);
+        } else {
+            setParkingSpots((prev) => [...prev, ...data]);
+        }
+    }, [page, numericLotId]);
+
+    useEffect(() => {
+        fetchParkingSpots(page === 0);
+    }, [page, fetchParkingSpots]);
+
+    const handleScroll = (e) => {
+        const { scrollTop, scrollHeight, clientHeight } = e.target;
+        if (scrollTop > prevScrollRef.current && scrollTop + clientHeight + 1 >= scrollHeight) {
+            setPage((prev) => prev + 1);
+        }
+        prevScrollRef.current = Math.max(prevScrollRef.current, scrollTop);
+    }
+
+    useEffect(() => {
+        const scrollContainer = scrollContainerRef.current;
+        if (scrollContainer) {
+            scrollContainer.addEventListener('scroll', handleScroll);
+        return () => scrollContainer.removeEventListener('scroll', handleScroll);
+        }
+    }, []);
 
     return (
         <div className='parking-lot'>
-            <Header title={`Parking Lot ${lotId}`}/>
             {reservingSpot &&
-                <Reservation spot={reservingSpot} onClose={() => setReservingSpot(null)} />
+                <Reservation lot={numericLotId} spot={reservingSpot.spotId} onClose={() => setReservingSpot(null)} />
             }
-            <ul className='parking-spots'>
+            <Header title={`Parking Lot ${lotId}`}/>
+            <ul className='parking-spots' ref={scrollContainerRef}>
                 {parkingSpots.map(parkingSpot => (
-                    <li key={parkingSpot.id} className={`parking-spot`} onClick={() => setReservingSpot(parkingSpot)}>
-                        <span className='spot-title'>Spot {parkingSpot.id}</span>
-                        {parkingSpot.type === 'ev' && <EvStationIcon style={{ color: 'green' }} className="spot-type" />}
+                    <li key={parkingSpot.spotId} className={`parking-spot`} onClick={() => setReservingSpot(parkingSpot)}>
+                        <span className='spot-title'>Spot {parkingSpot.spotId}</span>
+                        {parkingSpot.type === 'EV charging' && <EvStationIcon style={{ color: 'green' }} className="spot-type" />}
                         {parkingSpot.type === 'disabled' && <AccessibleIcon className="spot-type"/>}
                     </li>
                 ))}

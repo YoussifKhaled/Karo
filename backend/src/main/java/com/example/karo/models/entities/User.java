@@ -1,7 +1,6 @@
 package com.example.karo.models.entities;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -11,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -21,8 +19,6 @@ public class User implements UserDetails {
     private Long userId;
 
     private String name;
-
-    private Date dateOfBirth;
 
     private String email;
 
