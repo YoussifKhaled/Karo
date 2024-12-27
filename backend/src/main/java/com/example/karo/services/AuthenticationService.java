@@ -98,4 +98,8 @@ public class AuthenticationService {
         }
         throw new IllegalStateException("No authenticated user found");
     }
+
+    public boolean deleteUserById(long userId) {
+        return userRepository.deleteUserById(userId);
+    }
 }

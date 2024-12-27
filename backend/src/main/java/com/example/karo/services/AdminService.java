@@ -32,4 +32,8 @@ public class AdminService {
     public List<TopLot> getTopLotsByRevenue() {
         return adminRepository.getTopLotsByRevenue();
     }
+
+    public List<User> getAllManagers() {
+        return adminRepository.getAllManagers();
+    }
 }

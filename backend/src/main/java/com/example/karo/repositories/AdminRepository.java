@@ -5,6 +5,7 @@ import com.example.karo.models.entities.TopUser;
 import com.example.karo.models.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -25,16 +26,18 @@ public class AdminRepository {
             JOIN driver d ON u.user_id = d.user_id
             JOIN reservation r ON d.user_id = r.driver_id
             GROUP BY u.user_id, u.name
-            ORDER BY reservation_count DESC
-            LIMIT 10
+            ORDER BY reservation_count DESC;
         """;
     private static final String SQL_TOP_LOT_BY_REVENUE = """
             SELECT *
             FROM parking_lot
-            ORDER BY safe
-            DESC
-            LIMIT 10;
+            ORDER BY safe DESC;
         """;
+    private static final String SQL_ALL_MANAGERS = """
+            SELECT *
+            FROM user
+            WHERE role = 'manager';
+            """;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -79,4 +82,17 @@ public class AdminRepository {
                 )
         );
     }
+
+    public List<User> getAllManagers() {
+        return jdbcTemplate.query(SQL_ALL_MANAGERS, userRowMapper);
+    }
+
+    private final RowMapper<User> userRowMapper = (((rs, rowNum) ->
+            User.builder()
+                    .userId(rs.getLong("user_id"))
+                    .name(rs.getString("name"))
+                    .email(rs.getString("email"))
+                    .role(rs.getString("role"))
+                    .build()
+    ));
 }
