@@ -1,6 +1,9 @@
 package com.example.karo.repositories;
 
 import com.example.karo.models.entities.Reservation;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,6 +21,11 @@ import java.util.Map;
 
 @Repository
 public class ReservationRepository {
+
+    public List<Reservation> findReservationsByStartTime(LocalDateTime targetTime) {
+        String sql = "SELECT * FROM RESERVATION WHERE start = ?";
+        return jdbcTemplate.query(sql, reservationRowMapper, targetTime);
+    }
 
     private static final String SQL_INSERT_RESERVATION = """
         INSERT INTO reservation
@@ -106,7 +114,7 @@ public class ReservationRepository {
                 .reservationId(rs.getLong("reservation_id"))
                 .driverId(rs.getLong("driver_id"))
                 .spotId(rs.getLong("spot_id"))
-                .lotId(rs.getLong("lot_it"))
+                .lotId(rs.getLong("lot_id"))
                 .start(rs.getTimestamp("start").toLocalDateTime())
                 .end(rs.getTimestamp("end").toLocalDateTime())
                 .violation(rs.getString("violation"))

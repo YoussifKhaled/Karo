@@ -2,7 +2,6 @@
 CREATE TABLE IF NOT EXISTS user (
     user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    date_of_birth DATE NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     role ENUM('regular', 'admin', 'driver') NOT NULL
@@ -59,7 +58,7 @@ CREATE TABLE IF NOT EXISTS reservation (
 CREATE TABLE IF NOT EXISTS notification (
     notification_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     sent_at DATETIME NOT NULL,
-    type ENUM('Payment Reminder', 'Spot Availability', 'Reservation Confirmation', 'Sensor Alert', 'General Update'),
+    type ENUM('Reservation Reminder', 'Reservation Confirmation'),
     content TEXT NOT NULL
 );
 
