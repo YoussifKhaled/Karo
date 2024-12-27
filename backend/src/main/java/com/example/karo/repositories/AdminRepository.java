@@ -24,7 +24,7 @@ public class AdminRepository {
             SELECT u.user_id, u.name, COUNT(r.reservation_id) AS reservation_count
             FROM user u
             JOIN driver d ON u.user_id = d.user_id
-            JOIN reservation r ON d.user_id = r.driver_id
+            LEFT JOIN reservation r ON d.user_id = r.driver_id
             GROUP BY u.user_id, u.name
             ORDER BY reservation_count DESC;
         """;

@@ -1,5 +1,6 @@
 package com.example.karo.services;
 
+import com.example.karo.models.entities.Driver;
 import com.example.karo.models.entities.User;
 import com.example.karo.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class UserService {
         String email = authenticationService.getCurrentEmail();
         return userRepository.findUserByEmail(email);
     }
-
+2
     public int getRoleCurrentUser() {
         String role = getCurrentUser().getRole();
 
@@ -27,5 +28,19 @@ public class UserService {
         else if ("admin".equals(role)) roleNumber = 2;
 
         return roleNumber;
+
+    public Driver getDriver() {
+        User user = getCurrentUser();
+        return userRepository.findDriverById(user.getUserId());
+    }
+
+    public Integer getBalance() {
+        return getDriver().getBalance();
+    }
+
+    public Integer addBalance(int balance) {
+        Driver driver = getDriver();
+        userRepository.addBalance(driver.getUserId(), balance);
+        return driver.getBalance() + balance;
     }
 }
