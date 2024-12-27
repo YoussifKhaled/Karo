@@ -15,7 +15,7 @@ function Header ({title}) {
         />
         <span className="karo">{title}</span>
         <NotificationsIcon className="notification-icon" sx={{ fontSize: 30 }}
-        onClick={() => navigate('/notifications/:userId')}
+        onClick={() => navigate('/notifications')}
         />
         <AccountCircleIcon className="account-icon" sx={{ fontSize: 30 }}/>
     </div>
