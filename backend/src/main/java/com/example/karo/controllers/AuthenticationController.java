@@ -1,13 +1,9 @@
 package com.example.karo.controllers;
 
 import com.example.karo.models.dtos.RegisterUserDTO;
-import com.example.karo.models.entities.User;
 import com.example.karo.services.AuthenticationService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AuthenticationController {
@@ -18,9 +14,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> signup(@RequestBody RegisterUserDTO registerUserDTO) {
-        User user = authenticationService.signup(registerUserDTO);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<?> signup(@RequestBody RegisterUserDTO registerUserDTO) {
+        return authenticationService.signup(registerUserDTO);
     }
 
     @PostMapping("/login")
