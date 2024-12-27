@@ -1,6 +1,15 @@
 package com.example.karo.repositories;
 
+import com.example.karo.models.entities.TopLot;
+import com.example.karo.models.entities.TopUser;
+import com.example.karo.models.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class AdminRepository {
@@ -26,5 +35,47 @@ public class AdminRepository {
             LIMIT 10;
         """;
 
-    
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    public long insertManager(User user) {
+        if (user == null)
+            throw new IllegalArgumentException("User is null");
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        int count = jdbcTemplate.update(connection -> {
+                var ps = connection.prepareStatement(SQL_INSERT_MANAGER, new String[]{"user_id"});
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPasswordHash());
+            return ps;
+        }, keyHolder);
+
+        if (count == 1)
+            return keyHolder.getKey().longValue();
+
+        throw new RuntimeException("Failed to insert manager");
+    }
+
+    public List<TopUser> getTopUsersByReservations() {
+
+        return jdbcTemplate.query(SQL_TOP_USERS_BY_RESERVATIONS, (rs, rowNum) ->
+                new TopUser(
+                        rs.getLong("user_id"),
+                        rs.getString("name"),
+                        rs.getInt("reservation_count")
+                )
+        );
+    }
+
+    public List<TopLot> getTopLotsByRevenue() {
+
+        return jdbcTemplate.query(SQL_TOP_LOT_BY_REVENUE, (rs, rowNum) ->
+                new TopLot(
+                        rs.getLong("lot_id"),
+                        rs.getBigDecimal("revenue")
+                )
+        );
+    }
 }
