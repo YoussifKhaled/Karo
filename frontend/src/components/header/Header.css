@@ -83,3 +83,35 @@
     background-color: #16a8e6;
     color: white;
 }
+
+.admin-logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 8rem;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    border: 0.1rem solid whitesmoke;
+}
+
+.admin-logout:hover {
+    background-color: #16a8e6;
+    color: white;
+}
+
+.create-manager {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10rem;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    border: 0.1rem solid whitesmoke;
+}
+
+.create-manager:hover {
+    background-color: #16a8e6;
+    color: white;
+}
