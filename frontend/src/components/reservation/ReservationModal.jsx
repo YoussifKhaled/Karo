@@ -1,22 +1,27 @@
 import './ReservationModal.css';
 import { useState,useEffect } from 'react';
     
-const fetchReservations = async (lotId, spotId) => {
+const fetchReservations = async (lotId, spotId, token) => {
     const response = await fetch(
         `http://localhost:8080/reservations/by-lot-and-spot/future?lotId=${lotId}&spotId=${spotId}`, {
         method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
     });
     const data = await response.json();
+    console.log(data);
     return Array.isArray(data) ? data : [];
 };
     
 function Reservation ({ lot, spot, onClose }) {
 
     const [reservations, setReservations] = useState([]);
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
         const getReservations = async () => {
-            const data = await fetchReservations(lot, spot);
+            const data = await fetchReservations(lot, spot, token);
             // loop through data and divide each reservation into hours
             // for example: reservation from 10:00 to 12:00 will be divided into 10:00-11:00 and 11:00-12:00
             // then set the reservations
@@ -35,7 +40,7 @@ function Reservation ({ lot, spot, onClose }) {
             setReservations(resTmp);
         };
         getReservations();
-    }, [lot, spot]);
+    }, [lot, spot, token]);
 
     const now = new Date();
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -159,7 +164,7 @@ function Reservation ({ lot, spot, onClose }) {
             const groupedHours = groupSelectedHours(selectedHours);
 
             const reservation = {
-                driverId: 2,
+                driverId: 1,
                 spotId: spot,
                 lotId: lot,
                 start: null,
@@ -177,7 +182,8 @@ function Reservation ({ lot, spot, onClose }) {
                     const response = await fetch('http://localhost:8080/reservations', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
                         },
                         body: JSON.stringify(reservation)
                     });

@@ -25,6 +25,9 @@ function ParkingLot() {
         const response = await fetch(
             `http://localhost:8080/spot/lot-spots/${numericLotId}?limit=${pageSize}&offset=${currentPage * pageSize}`, {
             method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            }
         });
         const data = await response.json();
         if (reset) {
