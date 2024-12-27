@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-// import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
 
@@ -13,20 +13,21 @@ const customIcon = new L.Icon({
     tooltipSize: [40, 40],
 });
 
-// Generate random parking lots
-const parkingLots = Array.from({ length: 10 }, (_, index) => ({
-    id: index,
-    name: `Parking Lot ${index + 1}`,
-    latitude: 31.207 + Math.random() / 100,
-    longitude: 29.924 + Math.random() / 100,
-}));
-
 function MapComponent () {
+
     const navigate = useNavigate();
+    const [parkingLots, setParkingLots] = useState([]);
 
     const handleMarkerClick = (lotId) => {
-        navigate(`/parking-lot/${lotId+1}`);
+        navigate(`/parking-lot/${lotId}`);
     }
+
+    useEffect(() => {
+        fetch('http://localhost:8080/lot/all')
+            .then(response => response.json())
+            .then(data => setParkingLots(data))
+            .catch(error => console.error(error));
+    }, []);
 
     return (
         <>
@@ -37,15 +38,15 @@ function MapComponent () {
                 />
                 {parkingLots.map((lot) => (
                     <Marker 
-                        key={lot.id} 
+                        key={lot.lotId} 
                         position={[lot.latitude, lot.longitude]}
                         icon={customIcon}
                         eventHandlers={{
-                            click: () => handleMarkerClick(lot.id),
+                            click: () => handleMarkerClick(lot.lotId),
                         }}
                         >
                         
-                        <Tooltip>{lot.name}</Tooltip>
+                        <Tooltip>Lot {lot.lotId}</Tooltip>
                     </Marker>
                 ))}
             </MapContainer>

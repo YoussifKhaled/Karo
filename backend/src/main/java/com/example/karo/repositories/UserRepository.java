@@ -20,9 +20,9 @@ public class UserRepository {
 
     private static final String SQL_INSERT_USER = """
     INSERT INTO user
-            	(user_id, name, date_of_birth, email, password_hash,role)
+            	(user_id, name, email, password_hash,role)
             VALUES
-            	(?, ?, ?, ?, ?, ?);
+            	(?, ?, ?, ?, ?);
     """;
 
     private static final String SQL_DELETE_USER_BY_ID = """
@@ -41,7 +41,6 @@ public class UserRepository {
             SQL_INSERT_USER,
             user.getUserId(),
             user.getName(),
-            user.getDateOfBirth(),
             user.getEmail(),
             user.getPasswordHash(),
             user.getRole());
@@ -60,7 +59,6 @@ public class UserRepository {
         User.builder()
             .userId(rs.getLong("user_id"))
             .name(rs.getString("name"))
-            .dateOfBirth(rs.getDate("date_of_birth"))
             .email(rs.getString("email"))
             .role(rs.getString("role"))
             .passwordHash(rs.getString("password_hash"))

@@ -17,11 +17,12 @@ public class ParkingReservationController {
     private ParkingReservationService parkingReservationService;
 
     @PostMapping
-    public ResponseEntity<Long> createReservation(@RequestBody Reservation reservation) {
+    public ResponseEntity<?> createReservation(@RequestBody Reservation reservation) {
         try {
             long reservationId = parkingReservationService.createReservation(reservation);
             return new ResponseEntity<>(reservationId, HttpStatus.CREATED);
         } catch (IllegalArgumentException | IllegalStateException e) {
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }

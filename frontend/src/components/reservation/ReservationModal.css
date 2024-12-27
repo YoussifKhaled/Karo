@@ -8,11 +8,12 @@
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
 }
 
 .reservation {
     width: 50%;
-    height: 90%;
+    height: 99%;
     background-color: white;
     border-radius: 10px;
     display: flex;
@@ -61,19 +62,67 @@
     width: 90%;
     height: 90%;
     margin: 1rem;
-    gap: 1rem;
 }
 
-.hour-button {
-    width: 40vw;
+.not-reserved-button {
+    margin-bottom: 0.1rem;
+    width: 30vw;
     display: flex;
     cursor: pointer;
-    box-shadow: 0 1px 0 0 #011b27;
+    box-shadow: -1px 1px 1px 0 #011b27;
     border-radius: 10px;
     padding-left: 1.5rem;
 }
 
-.hour-button:hover {
+.not-reserved-button:hover {
     background-color: #f0f0f0;
     box-shadow: 0 1px 0 0 #011b27;
+}
+
+.reserved-button {
+    width: 30vw;
+    display: flex;
+    cursor: not-allowed;
+    box-shadow: 0 1px 0 0 #161d20;
+    border-radius: 10px;
+    padding-left: 1.5rem;
+    background-color: #f0f0f0;
+}
+
+.hour-details {
+    font-style: italic;
+}
+
+.reserved-details {
+    font-style: oblique;
+    font-weight: bold;
+    color: #16272e;
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
+.selected-hour-button {
+    background-color: #5d9ab8;
+}
+
+.selected-hour-button:hover {
+    background-color: #5d9ab8;
+}
+
+.reserve-button {
+    width: 20vw;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #011b27;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: auto;
+    margin-bottom: 0.2rem;
+}
+
+.reserve-button:hover {
+    background-color: #1b333d;
 }
