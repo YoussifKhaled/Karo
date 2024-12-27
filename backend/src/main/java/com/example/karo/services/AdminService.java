@@ -18,13 +18,9 @@ public class AdminService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public long addManager(String name, String email, String passwordHash) {
-        String ph = passwordEncoder.encode(passwordHash);
-        User user = User.builder()
-                .name(name)
-                .email(email)
-                .passwordHash(ph)
-                .build();
+    public long addManager(User user) {
+        String ph = passwordEncoder.encode(user.getPasswordHash());
+        user.setPasswordHash(ph);
 
         return adminRepository.insertManager(user);
     }

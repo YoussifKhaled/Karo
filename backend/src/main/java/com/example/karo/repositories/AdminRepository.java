@@ -32,6 +32,7 @@ public class AdminRepository {
             SELECT *
             FROM parking_lot
             ORDER BY safe
+            DESC
             LIMIT 10;
         """;
 
@@ -74,7 +75,7 @@ public class AdminRepository {
         return jdbcTemplate.query(SQL_TOP_LOT_BY_REVENUE, (rs, rowNum) ->
                 new TopLot(
                         rs.getLong("lot_id"),
-                        rs.getBigDecimal("revenue")
+                        rs.getBigDecimal("safe")
                 )
         );
     }
