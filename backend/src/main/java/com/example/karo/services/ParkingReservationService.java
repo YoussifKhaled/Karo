@@ -22,8 +22,8 @@ public class ParkingReservationService {
     public long createReservation(Reservation reservation) {
         if (reservation == null)
             throw new IllegalArgumentException("Reservation cannot be null");
-        if (reservation.getStart().isBefore(LocalDateTime.now()))
-            throw new IllegalArgumentException("Start time is not valid");
+//        if (reservation.getStart().isBefore(LocalDateTime.now()))
+//            throw new IllegalArgumentException("Start time is not valid");
         if (reservation.getEnd().isBefore(reservation.getStart()))
             throw new IllegalArgumentException("End time is not valid");
 
