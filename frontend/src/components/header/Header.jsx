@@ -56,10 +56,8 @@ function Header ({title,mode}) {
                 onClick={() => navigate('/home')}
               />
               <span className="karo">{title}</span>
-              <NotificationsIcon 
-                className="notification-icon" sx={{ fontSize: 30 }}
-                onClick={() => navigate('/notifications')}
-              />
+              <span className="create-parking-lot" onClick={() => navigate('/create-parking-lot')}>Create Parking Lot</span>
+              <span className="manager-logout" onClick={logOut}>Logout</span>
           </div>
         </>
       }

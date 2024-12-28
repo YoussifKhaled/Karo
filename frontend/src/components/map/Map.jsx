@@ -23,15 +23,27 @@ function MapComponent ({mode}) {
     }
 
     useEffect(() => {
-        fetch('http://localhost:8080/lot/all',{
-            method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem('token')}`
-            }
-        })
-            .then(response => response.json())
-            .then(data => setParkingLots(data))
-            .catch(error => console.error(error));
+        if (mode === 0) {
+            fetch('http://localhost:8080/lot/all',{
+                method: 'GET',
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+                .then(response => response.json())
+                .then(data => setParkingLots(data))
+                .catch(error => console.error(error));
+        }else {
+            fetch('http://localhost:8080/manager/lots',{
+                method: 'GET',
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+                .then(response => response.json())
+                .then(data => setParkingLots(data))
+                .catch(error => console.error(error));
+        }
     }, []);
 
     return (

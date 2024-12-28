@@ -1,5 +1,6 @@
 import './Home.css';
 import { useState,useEffect,useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MapComponent from '../../components/map/Map';
 import Header from '../../components/header/Header';
 import { useLocation } from 'react-router-dom';
@@ -16,6 +17,25 @@ function Home() {
   const [topParkingLots, setTopParkingLots] = useState([]);
   const [systemManagers, setSystemManagers] = useState([]);
 
+  const [utilization, setUtilization] = useState([]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUtilization = async () => {
+        const response = await fetch("http://localhost:8080/manager/lots/utilization", {
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+            }
+        })
+        const data = await response.json();
+        setUtilization(data);
+        console.log("utilization: "+data);
+    }
+    fetchUtilization();
+}, [token]);
 
   const fetchAllData = useCallback(async () => {
     try {
@@ -130,9 +150,27 @@ function Home() {
         }
         {
           mode === 1 &&
-          <div className="map-container">
-              <MapComponent mode={mode} />
-          </div>
+          <>
+            <div className="map-container">
+                <MapComponent mode={mode} />
+            </div>
+            <ul className="utilization-list">
+              {
+                utilization.map(lot => (
+                  <li
+                    key={lot.lot_id}
+                    className="utilization-list-item"
+                    onClick={() => navigate(`/parking-lot/${lot.lot_id}`)}
+                  >
+                    <span>Lot {lot.lot_id}</span>
+                    <span>Capacity: {lot.capacity}</span>
+                    <span>Occupancy: {lot.occupied_spots}</span>
+                    <span>Utilization: {lot.occupancy_rate}%</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </>
         }
         {
           mode === 2 &&

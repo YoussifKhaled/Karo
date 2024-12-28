@@ -9,6 +9,7 @@ import ParkingLot from './pages/parkinglot/ParkingLot';
 import NotificationCenter from './pages/notificationcenter/NotificationCenter';
 import Wallet from './pages/wallet/Wallet';
 import CreateManager from './pages/create-manager/CreateManager';
+import CreateParkingLot from './pages/create-parking-lot/CreateParkingLot';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/notifications" element={<NotificationCenter />} />
             <Route path="/wallet" element={<Wallet />} />
             <Route path="/create-manager" element={<CreateManager />} />
+            <Route path="/create-parking-lot" element={<CreateParkingLot />} />
           </Routes>
         </main>
       </Router>

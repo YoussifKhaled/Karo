@@ -121,3 +121,31 @@
 .manager-list-item:hover .delete-icon {
     display: block;
 }
+
+.utilization-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 60vh;
+    width: 40vw;
+    overflow-y: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 0;
+}
+
+.utilization-list-item {
+    width: 95%;
+    padding: 0.5rem;
+    border-bottom: 1px ridge #1bbbff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.utilization-list-item:hover {
+    background-color: #f0f0f0;
+}

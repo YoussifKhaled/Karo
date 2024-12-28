@@ -2,10 +2,10 @@ package com.example.karo.controllers;
 
 import com.example.karo.models.entities.ParkingLot;
 import com.example.karo.services.ManagerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.example.karo.services.UserService;
 
 import java.util.List;
 import java.util.Map;
@@ -15,15 +15,17 @@ import java.util.Map;
 public class ManagerController {
 
     private final ManagerService managerService;
+    private final UserService userService;
 
-    @Autowired
-    public ManagerController(ManagerService managerService) {
+    public ManagerController(ManagerService managerService, UserService userService) {
         this.managerService = managerService;
+        this.userService = userService;
     }
 
     @GetMapping("/lots")
-    public ResponseEntity<?> getLotsOwned(@RequestParam("managerId") long managerId) {
+    public ResponseEntity<?> getLotsOwned() {
         try {
+            long managerId = userService.getCurrentUser().getUserId();
             List<ParkingLot> lots = managerService.getLotsOwnedByManager(managerId);
             return ResponseEntity.ok(lots);
         } catch (Exception e) {
@@ -32,8 +34,9 @@ public class ManagerController {
     }
 
     @GetMapping("/lots/utilization")
-    public ResponseEntity<?> getLotUtilization(@RequestParam("managerId") long managerId) {
+    public ResponseEntity<?> getLotUtilization() {
         try {
+            long managerId = userService.getCurrentUser().getUserId();
             List<Map<String, Object>> utilization = managerService.getLotUtilization(managerId);
             return ResponseEntity.ok(utilization);
         } catch (Exception e) {

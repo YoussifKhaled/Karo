@@ -74,3 +74,35 @@
     margin-left: auto;
     margin-right: 1rem;
 }
+
+.reserved {
+    background-color: #77d099;
+    box-shadow: 0 2px 10px rgba(6, 95, 169, 0.4);
+}
+
+.occupied {
+    background-color: #5fb6e8;
+    box-shadow: 0 2px 10px rgba(6, 95, 169, 0.4);
+}
+
+.available {
+    background-color: #f3967c;
+    box-shadow: 0 2px 10px rgba(6, 95, 169, 0.4);
+}
+
+.spots-status {
+    position: absolute;
+    top: 10vh;
+    width: 25vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.status {
+    font-size: 1rem;
+    font-weight: bold;
+    color: rgb(62, 199, 149);
+}

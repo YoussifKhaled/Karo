@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.example.karo.services.UserService;
 
 import java.util.List;
 
@@ -15,9 +16,13 @@ public class ParkingLotController {
     @Autowired
     private ParkingLotService parkingLotService;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/create")
     public ResponseEntity<?> createParkingLot(@RequestBody ParkingLot parkingLot) {
         try {
+            parkingLot.setManagerId(userService.getCurrentUser().getUserId());
             long lotId = parkingLotService.addParkingLot(parkingLot);
             return ResponseEntity.ok(lotId);
         } catch (Exception e) {

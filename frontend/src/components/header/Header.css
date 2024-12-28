@@ -115,3 +115,35 @@
     background-color: #16a8e6;
     color: white;
 }
+
+.create-parking-lot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 12rem;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    border: 0.1rem solid whitesmoke;
+}
+
+.create-parking-lot:hover {
+    background-color: #16a8e6;
+    color: white;
+}
+
+.manager-logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 8rem;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    border: 0.1rem solid whitesmoke;
+}
+
+.manager-logout:hover {
+    background-color: #16a8e6;
+    color: white;
+}
